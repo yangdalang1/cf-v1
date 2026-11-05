@@ -1,0 +1,8 @@
+name = "cf-fullstack"
+compatibility_date = "2024-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "demo-db"
+database_id = "9e644d06-ca73-43c8-9ea6-bed447a565a5"

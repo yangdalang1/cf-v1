@@ -1,0 +1,590 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;700&family=Noto+Serif+SC:wght@400;700&family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&display=swap');
+
+/* ================= 1. 基础结构与原生主题 ================= */
+.poster-wrapper { display: flex; justify-content: center; padding: 10px 0; overflow-x: auto; background: #f1f5f9; }
+.poster-wrapper .poster-container { width: 1560px !important; padding: 6px 10px 6px !important; border-radius: 12px !important; box-sizing: border-box; text-align: center; position: relative; overflow: hidden; transition: all 0.3s ease; }
+.poster-wrapper .poster-banner { margin: 0 0 6px; display: flex; flex-direction: column; align-items: center; gap: 0px; position: relative; z-index: 2; }
+.poster-wrapper .banner-en { font-size: 12px !important; letter-spacing: 8px !important; font-weight: 800; opacity: 1 !important; }
+.poster-wrapper .banner-cn { font-size: 36px !important; font-weight: 900 !important; letter-spacing: 2px !important; line-height: 1.1; }
+
+.poster-wrapper .result-cell { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; justify-content: center; width: 100%; gap: 4px; }
+.poster-wrapper .main-score { grid-column: 2; font-weight: 900 !important; font-size: 18px !important; letter-spacing: 0px !important; white-space: pre-wrap !important; text-align: center; }
+.poster-wrapper .sub-score { grid-column: 3; font-size: 12px !important; font-weight: 700 !important; padding: 1px 6px !important; border-radius: 4px; white-space: nowrap !important; vertical-align: middle !important; }
+
+.poster-wrapper .poster-footer { font-size: 11px; margin-top: 6px; letter-spacing: 3px; font-weight: 600; padding-top: 6px; position: relative; z-index: 2; opacity: 1 !important; }
+
+/* ================= 2. 核心表格 ================= */
+.poster-wrapper .poster-table { width: 100% !important; border-collapse: separate !important; border-spacing: 0 6px !important; position: relative; z-index: 2; table-layout: auto !important; }
+.poster-wrapper .poster-table th { padding: 4px 8px !important; font-size: 15px !important; text-align: center; font-weight: 800 !important; letter-spacing: 1.5px !important; border: none !important; white-space: nowrap; opacity: 1 !important; }
+.poster-wrapper .poster-table td { padding: 1px 8px !important; font-size: 17px !important; text-align: center; white-space: pre-wrap !important; font-weight: 600 !important; line-height: 1.1 !important; border: none !important; }
+.poster-wrapper .poster-table td:nth-child(1), .poster-wrapper .poster-table td:nth-child(2), .poster-wrapper .poster-table td:nth-last-child(2) { font-size: 17px !important; font-weight: 900 !important; }
+.poster-wrapper .poster-table th:nth-child(5), .poster-wrapper .poster-table td:nth-child(5) { min-width: 160px !important; }
+.poster-wrapper .poster-table span.text-win, .poster-wrapper .poster-table span.text-draw, .poster-wrapper .poster-table span.text-lose { display: inline-block !important; font-size: 16px !important; padding: 2px 18px !important; border-radius: 4px !important; font-weight: 900 !important; margin: 0 !important; letter-spacing: 1px; min-width: 44px; white-space: nowrap !important; }
+
+/* ================= 3. 终极数据卡片 ================= */
+.poster-wrapper .poster-stats { display: flex !important; justify-content: center !important; align-items: baseline !important; background: rgba(255, 255, 255, 0.9) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important; padding: 4px 40px !important; border-radius: 12px !important; gap: 28px !important; margin: 2px auto 10px !important; width: max-content; position: relative; z-index: 2; }
+.poster-wrapper .stat-item { display: flex; align-items: baseline; gap: 6px; }
+.poster-wrapper .stat-label { font-size: 20px !important; font-weight: 900 !important; opacity: 1 !important; margin-right: 6px !important; letter-spacing: 1px; }
+.poster-wrapper .stat-num { font-size: 32px !important; font-weight: 900 !important; letter-spacing: -0.5px !important; line-height: 1.1 !important; }
+.poster-wrapper .stat-divider { height: 28px !important; width: 2px !important; opacity: 0.2 !important; background: #000 !important; }
+.poster-wrapper .stat-item.rate .stat-num { color: #f59e0b !important; }
+
+/* ================= 4. 原生风格 ================= */
+
+/* 1. 玻璃 (iOS) */
+.poster-wrapper .theme-ios { background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(241,245,249,0.9)) !important; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.1), inset 0 0 0 1px rgba(255,255,255,1) !important; }
+.poster-wrapper .theme-ios::before { content:''; position:absolute; top:0; left:0; right:0; background: linear-gradient(90deg, #3b82f6, #8b5cf6); height: 4px; }
+.poster-wrapper .theme-ios .banner-en { color: #64748b; }
+.poster-wrapper .theme-ios .banner-cn { color: #0f172a; }
+.poster-wrapper .theme-ios .poster-table th { color: #64748b !important; border-bottom: 1px solid rgba(0,0,0,0.05) !important; }
+.poster-wrapper .theme-ios .poster-table tbody tr td { background: rgba(255, 255, 255, 0.7) !important; border: 1px solid rgba(255, 255, 255, 0.9) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.02) !important; color: #1e293b !important; border-top-color: #fff !important; }
+.poster-wrapper .theme-ios .poster-table tbody tr td:nth-child(1) { background: rgba(241,245,249,0.6) !important; color: #3b82f6 !important; }
+.poster-wrapper .theme-ios .sub-score { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.poster-wrapper .theme-ios .text-win { background: #fee2e2; color: #e11d48; }
+.poster-wrapper .theme-ios .text-lose { background: #e2e8f0 !important; color: #64748b !important; border: none !important; }
+.poster-wrapper .theme-ios .poster-footer { color: #94a3b8; border-top: 1px dashed rgba(0,0,0,0.1); }
+.poster-wrapper .theme-ios .poster-stats { background: rgba(255,255,255,0.85) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05), inset 0 1px 0 #fff !important; }
+.poster-wrapper .theme-ios .stat-num { color: #0f172a; }
+.poster-wrapper .theme-ios .stat-label { color: #475569 !important; }
+
+/* 2. 电竞 (Cyber) - 增强渐变与光效 */
+.poster-wrapper .theme-cyber { background: #040914 !important; background-image: radial-gradient(circle at 50% 0%, rgba(6,182,212,0.15) 0%, transparent 60%), linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px) !important; background-size: 100% 100%, 30px 30px, 30px 30px !important; box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(6, 182, 212, 0.3) inset !important; }
+.poster-wrapper .theme-cyber::before { content:''; position:absolute; top:0; left:0; right:0; background: #06b6d4; height: 4px; box-shadow: 0 0 20px #06b6d4; }
+.poster-wrapper .theme-cyber .banner-en { color: #06b6d4 !important; }
+.poster-wrapper .theme-cyber .banner-cn { color: #ffffff !important; text-shadow: 0 0 15px rgba(6,182,212,0.8); }
+.poster-wrapper .theme-cyber .poster-table th { color: #06b6d4 !important; border-bottom: 2px solid #06b6d4 !important; }
+.poster-wrapper .theme-cyber .poster-table tbody tr td { background: rgba(4, 9, 20, 0.8) !important; border: 1px solid rgba(6, 182, 212, 0.4) !important; color: #ffffff !important; box-shadow: inset 0 0 15px rgba(6, 182, 212, 0.1) !important; }
+.poster-wrapper .theme-cyber .poster-table tbody tr td:nth-child(1) { background: #06b6d4 !important; color: #000 !important; font-weight: 900 !important; }
+.poster-wrapper .theme-cyber .sub-score { background: #06b6d4; color: #000 !important; font-weight: 900; }
+.poster-wrapper .theme-cyber .text-win { background: transparent !important; color: #06b6d4 !important; border: 2px solid #06b6d4 !important; box-shadow: 0 0 10px rgba(6,182,212,0.6) !important; }
+.poster-wrapper .theme-cyber .text-lose { background: #1e293b !important; color: #94a3b8 !important; border: 1px solid #334155 !important; }
+.poster-wrapper .theme-cyber .poster-footer { color: #06b6d4 !important; border-top: 1px solid rgba(6,182,212,0.3); }
+.poster-wrapper .theme-cyber .poster-stats { background: #040914 !important; border: 2px solid #06b6d4 !important; box-shadow: 0 0 20px rgba(6,182,212,0.3) !important; }
+.poster-wrapper .theme-cyber .stat-num { color: #ffffff !important; }
+.poster-wrapper .theme-cyber .stat-label { color: #06b6d4 !important; }
+.poster-wrapper .theme-cyber .stat-divider { background: #06b6d4 !important; opacity: 1; }
+
+/* 3. 胡桃木 (News) */
+.poster-wrapper .theme-news { background: linear-gradient(135deg, #2a1f1a 0%, #1a1310 100%) !important; border: 4px solid #1a1310 !important; border-radius: 0 !important; box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px #8b6b4a !important; }
+.poster-wrapper .theme-news .banner-en { color: #cba171 !important; letter-spacing: 4px; }
+.poster-wrapper .theme-news .banner-cn { color: #f4ebd8 !important; font-size: 36px !important; }
+.poster-wrapper .theme-news .poster-table { border-spacing: 0 4px !important; }
+.poster-wrapper .theme-news .poster-table th { color: #cba171 !important; border-bottom: 2px solid #cba171 !important; }
+.poster-wrapper .theme-news .poster-table tbody tr td { background: #362a24 !important; color: #f4ebd8 !important; border-left: 2px solid #8b6b4a !important; border-bottom: 1px solid #1a1310 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-news .poster-table tbody tr td:nth-child(1) { background: #1a1310 !important; color: #cba171 !important; }
+.poster-wrapper .theme-news .sub-score { background: #1a1310; color: #cba171 !important; border: 1px solid #8b6b4a; }
+.poster-wrapper .theme-news .text-win { background: transparent !important; color: #cba171 !important; border: 1px solid #cba171 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-news .text-lose { background: #1a1310 !important; color: #8b6b4a !important; border: 1px solid #362a24 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-news .poster-footer { color: #8b6b4a !important; border-top: 2px solid #1a1310; }
+.poster-wrapper .theme-news .poster-stats { background: #1a1310 !important; border: 1px solid #8b6b4a !important; border-radius: 0 !important; }
+.poster-wrapper .theme-news .stat-num { color: #f4ebd8 !important; }
+.poster-wrapper .theme-news .stat-label { color: #e7d8c2 !important; }
+.poster-wrapper .theme-news .stat-item.win .stat-num { color: #cba171 !important; }
+.poster-wrapper .theme-news .stat-divider { background: #8b6b4a !important; }
+
+/* 4. 勃艮第红 (Midnight) */
+.poster-wrapper .theme-midnight { background: radial-gradient(circle at 50% 0%, #5c1220 0%, #2a0812 80%) !important; border: 1px solid #fbbf24 !important; box-shadow: 0 30px 60px rgba(74,14,28,0.6), inset 0 0 0 4px #4a0e1c !important; }
+.poster-wrapper .theme-midnight .banner-en { color: #fbbf24 !important; letter-spacing: 12px; }
+.poster-wrapper .theme-midnight .banner-cn { color: #ffffff !important; font-weight: normal !important; font-size: 42px !important; }
+.poster-wrapper .theme-midnight .poster-table th { color: #fbbf24 !important; border-bottom: 1px solid #fbbf24 !important; }
+.poster-wrapper .theme-midnight .poster-table tbody tr td { background: transparent !important; border-bottom: 1px solid rgba(251,191,36,0.2) !important; color: #ffffff !important; border-radius: 0 !important; box-shadow: none !important; }
+.poster-wrapper .theme-midnight .poster-table { border-spacing: 0 0 !important; }
+.poster-wrapper .theme-midnight .poster-table tbody tr td:nth-child(1) { color: #fbbf24 !important; }
+.poster-wrapper .theme-midnight .sub-score { background: transparent; color: #fbbf24 !important; border: none; }
+.poster-wrapper .theme-midnight .text-win { background: #fbbf24 !important; color: #4a0e1c !important; border: none !important; border-radius: 0 !important; font-weight: 900 !important; }
+.poster-wrapper .theme-midnight .text-lose { background: transparent !important; color: #fca5a5 !important; border: 1px solid #fbbf24 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-midnight .poster-footer { color: #fbbf24 !important; border-top: 1px solid #fbbf24; }
+.poster-wrapper .theme-midnight .poster-stats { background: transparent !important; border: none !important; border-bottom: 2px solid #fbbf24 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-midnight .stat-num { color: #fbbf24 !important; }
+.poster-wrapper .theme-midnight .stat-label { color: #fca5a5 !important; }
+.poster-wrapper .theme-midnight .stat-divider { background: #fbbf24 !important; opacity: 0.5; }
+
+/* 5. 体育报 (Gold) - 增强报头与线条 */
+.poster-wrapper .theme-gold { background: #f5f2eb !important; background-image: linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px) !important; background-size: 20px 20px !important; border: 2px solid #1c1917 !important; border-radius: 0 !important; box-shadow: none !important; }
+.poster-wrapper .theme-gold .banner-en { color: #57534e !important; letter-spacing: 4px; border-bottom: 1px solid #1c1917; padding-bottom: 2px; width: 100%; display: block; }
+.poster-wrapper .theme-gold .banner-cn { color: #1c1917 !important; font-size: 32px !important; letter-spacing: 0; text-transform: uppercase; }
+.poster-wrapper .theme-gold .poster-table th { color: #1c1917 !important; border-top: 3px double #1c1917 !important; border-bottom: 3px double #1c1917 !important; }
+.poster-wrapper .theme-gold .poster-table { border-spacing: 0 0 !important; }
+.poster-wrapper .theme-gold .poster-table tbody tr td { background: transparent !important; border-bottom: 1px solid #d6d3d1 !important; border-radius: 0 !important; box-shadow: none !important; color: #1c1917 !important; }
+.poster-wrapper .theme-gold .sub-score { background: transparent; color: #57534e !important; border: none; }
+.poster-wrapper .theme-gold .text-win { background: transparent !important; color: #991b1b !important; border: none !important; text-decoration: underline; font-weight: 900; border-radius: 0 !important; }
+.poster-wrapper .theme-gold .text-lose { background: transparent !important; color: #1c1917 !important; border: none !important; border-radius: 0 !important; }
+.poster-wrapper .theme-gold .poster-footer { color: #1c1917 !important; border-top: 3px double #1c1917; }
+.poster-wrapper .theme-gold .poster-stats { background: transparent !important; border: none !important; border-top: 3px double #1c1917 !important; border-bottom: 3px double #1c1917 !important; border-radius: 0 !important; padding: 4px 0 !important; width: 100% !important; justify-content: space-around !important; box-shadow: none !important; }
+.poster-wrapper .theme-gold .stat-label { color: #1c1917 !important; font-size: 16px !important; }
+.poster-wrapper .theme-gold .stat-num { color: #000000 !important; }
+.poster-wrapper .theme-gold .stat-item.win .stat-num { color: #991b1b !important; }
+
+/* 6. 晨雾 (Mist) */
+.poster-wrapper .theme-mist { background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%) !important; border-radius: 0 !important; box-shadow: none !important; }
+.poster-wrapper .theme-mist .banner-en { color: #94a3b8; letter-spacing: 6px; }
+.poster-wrapper .theme-mist .banner-cn { color: #1e293b; font-weight: 700; }
+.poster-wrapper .theme-mist .poster-table th { color: #94a3b8 !important; border-bottom: 1px solid #e2e8f0 !important; font-weight: 600 !important; }
+.poster-wrapper .theme-mist .poster-table tbody tr td { background: transparent !important; box-shadow: none !important; color: #334155 !important; border-bottom: 1px solid #f1f5f9 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-mist .poster-table tbody tr td:nth-child(1) { background: transparent !important; }
+.poster-wrapper .theme-mist .sub-score { background: transparent; color: #94a3b8; border: none; }
+.poster-wrapper .theme-mist .text-win { background: transparent !important; color: #e11d48 !important; border: none !important; font-weight: 900 !important; }
+.poster-wrapper .theme-mist .text-lose { background: transparent !important; color: #94a3b8 !important; border: none !important; }
+.poster-wrapper .theme-mist .poster-footer { color: #94a3b8; border-top: 1px solid #e2e8f0; }
+.poster-wrapper .theme-mist .poster-stats { background: transparent !important; border: none !important; box-shadow: none !important; }
+.poster-wrapper .theme-mist .stat-num { color: #1e293b !important; }
+.poster-wrapper .theme-mist .stat-label { color: #475569 !important; }
+.poster-wrapper .theme-mist .stat-item.win .stat-num { color: #e11d48 !important; }
+
+/* ================= 5. 其他强制补丁 ================= */
+.poster-wrapper .poster-table span.text-draw { background: #ecfdf5 !important; color: #047857 !important; border: 1px solid #a7f3d0 !important; }
+.poster-wrapper .theme-cyber .poster-table span.text-draw,
+.poster-wrapper .theme-news .poster-table span.text-draw,
+.poster-wrapper .theme-midnight .poster-table span.text-draw { background: rgba(16, 185, 129, 0.15) !important; color: #34d399 !important; border: 1px solid #10b981 !important; }
+
+/* 蒂芙尼 */
+.poster-wrapper .theme-tiffany { background: #fbfdfc !important; border: 1px solid #ccf0ed !important; box-shadow: 0 10px 30px rgba(10, 186, 181, 0.08) !important; }
+.poster-wrapper .theme-tiffany .banner-en { color: #0abab5 !important; letter-spacing: 6px; font-weight: 900; }
+.poster-wrapper .theme-tiffany .banner-cn { color: #0f172a !important; }
+.poster-wrapper .theme-tiffany .poster-table th { color: #0abab5 !important; border-bottom: 2px solid #0abab5 !important; }
+.poster-wrapper .theme-tiffany .poster-table tbody tr td { background: #ffffff !important; box-shadow: 0 2px 10px rgba(10, 186, 181, 0.05), inset 0 1px 0 rgba(10, 186, 181, 0.1) !important; color: #334155 !important; }
+.poster-wrapper .theme-tiffany .poster-table tbody tr td:nth-child(1) { background: #f0fdfa !important; color: #0abab5 !important; font-weight: 900 !important; }
+.poster-wrapper .theme-tiffany .sub-score { background: #ccf0ed; color: #0abab5 !important; }
+.poster-wrapper .theme-tiffany .text-win { background: #0abab5 !important; color: #ffffff !important; border: none !important; }
+.poster-wrapper .theme-tiffany .text-lose { background: #f1f5f9 !important; color: #64748b !important; border: 1px solid #e2e8f0 !important; }
+.poster-wrapper .theme-tiffany .text-draw { background: #fef3c7 !important; color: #d97706 !important; border: 1px solid #fcd34d !important; }
+.poster-wrapper .theme-tiffany .poster-footer { color: #0abab5 !important; border-top: 1px dashed #ccf0ed; }
+.poster-wrapper .theme-tiffany .poster-stats { background: #ffffff !important; border: 1px solid #ccf0ed !important; box-shadow: 0 4px 15px rgba(10,186,181,0.08) !important; }
+.poster-wrapper .theme-tiffany .poster-stats .stat-label { color: #0abab5 !important; }
+.poster-wrapper .theme-tiffany .stat-num { color: #0f172a !important; }
+.poster-wrapper .theme-tiffany .stat-item.win .stat-num { color: #0abab5 !important; }
+.poster-wrapper .theme-tiffany .stat-item.rate .stat-num { color: #0abab5 !important; }
+.poster-wrapper .theme-tiffany .stat-divider { background: #ccf0ed !important; }
+
+/* 霓虹 */
+.poster-wrapper .theme-neon { background: #12051f !important; background-image: radial-gradient(circle at 50% 0%, #3b0764 0%, transparent 60%) !important; box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(217, 70, 239, 0.2) inset !important; }
+.poster-wrapper .theme-neon::before { content:''; position:absolute; top:0; left:0; right:0; background: #d946ef; height: 3px; box-shadow: 0 0 15px rgba(217,70,239,0.8); }
+.poster-wrapper .theme-neon .banner-en { color: #d946ef !important; text-shadow: 0 0 10px rgba(217,70,239,0.5); }
+.poster-wrapper .theme-neon .banner-cn { color: #ffffff !important; text-shadow: 0 0 15px rgba(217,70,239,0.6); }
+.poster-wrapper .theme-neon .poster-table th { color: #d946ef !important; border-bottom: 1px solid rgba(217, 70, 239, 0.3) !important; }
+.poster-wrapper .theme-neon .poster-table tbody tr td { background: #1e0a31 !important; border: 1px solid rgba(217, 70, 239, 0.15) !important; color: #f8fafc !important; box-shadow: inset 0 0 15px rgba(217, 70, 239, 0.05) !important; }
+.poster-wrapper .theme-neon .poster-table tbody tr td:nth-child(1) { background: #090312 !important; color: #d946ef !important; border-color: #d946ef !important; }
+.poster-wrapper .theme-neon .sub-score { background: #3b0764; color: #d946ef !important; }
+.poster-wrapper .theme-neon .text-win { background: transparent !important; color: #f0abfc !important; border: 1px solid #d946ef !important; box-shadow: 0 0 10px rgba(217,70,239,0.4) !important; }
+.poster-wrapper .theme-neon .text-lose { background: #1e0a31 !important; color: #a1a1aa !important; border: 1px solid #4c1d95 !important; }
+.poster-wrapper .theme-neon .poster-footer { color: #d946ef !important; border-top: 1px solid #3b0764; }
+.poster-wrapper .theme-neon .poster-stats { background: #1e0a31 !important; border: 1px solid #d946ef !important; box-shadow: 0 0 25px rgba(217,70,239,0.15) !important; }
+.poster-wrapper .theme-neon .poster-stats .stat-label { color: #d8b4fe !important; }
+.poster-wrapper .theme-neon .stat-num { color: #ffffff !important; }
+.poster-wrapper .theme-neon .stat-item.win .stat-num { color: #d946ef !important; }
+.poster-wrapper .theme-neon .stat-item.rate .stat-num { color: #f0abfc !important; }
+.poster-wrapper .theme-neon .stat-divider { background: #d946ef !important; }
+
+/* 瑞士红 */
+.poster-wrapper .theme-swiss { background: #ffffff !important; border: 2px solid #000000 !important; border-radius: 0 !important; box-shadow: none !important; }
+.poster-wrapper .theme-swiss .banner-en { color: #000000 !important; font-weight: 900; letter-spacing: 4px; }
+.poster-wrapper .theme-swiss .banner-cn { color: #ef4444 !important; font-size: 38px !important; font-weight: 900 !important; text-transform: uppercase; letter-spacing: -1px; }
+.poster-wrapper .theme-swiss .poster-table { border-spacing: 0 0 !important; }
+.poster-wrapper .theme-swiss .poster-table th { color: #ffffff !important; background: #000000 !important; border: none !important; padding: 8px !important; }
+.poster-wrapper .theme-swiss .poster-table tbody tr td { background: #ffffff !important; border-bottom: 2px solid #000000 !important; border-radius: 0 !important; box-shadow: none !important; color: #000000 !important; }
+.poster-wrapper .theme-swiss .poster-table tbody tr td:nth-child(1) { background: #f5f5f5 !important; border-right: 1px solid #000 !important; }
+.poster-wrapper .theme-swiss .poster-table tbody tr td:nth-child(2) { border-right: 1px solid #000 !important; }
+.poster-wrapper .theme-swiss .poster-table tbody tr td:nth-child(3) { border-right: 1px solid #000 !important; }
+.poster-wrapper .theme-swiss .poster-table tbody tr td:nth-child(4) { border-right: 1px solid #000 !important; }
+.poster-wrapper .theme-swiss .poster-table tbody tr td:nth-child(5) { border-right: 1px solid #000 !important; }
+.poster-wrapper .theme-swiss .sub-score { background: transparent; color: #ef4444 !important; border: none; font-weight: 900 !important; }
+.poster-wrapper .theme-swiss .text-win { background: #ef4444 !important; color: #ffffff !important; border: none !important; border-radius: 0 !important; }
+.poster-wrapper .theme-swiss .text-lose { background: #000000 !important; color: #ffffff !important; border: none !important; border-radius: 0 !important; }
+.poster-wrapper .theme-swiss .poster-footer { color: #000000 !important; border-top: 4px solid #000000; }
+.poster-wrapper .theme-swiss .poster-stats { background: #000000 !important; border: none !important; border-radius: 0 !important; padding: 10px 20px !important; width: 100% !important; justify-content: space-around !important; box-shadow: none !important; margin-bottom: 10px !important; }
+.poster-wrapper .theme-swiss .poster-stats .stat-label { color: #a3a3a3 !important; }
+.poster-wrapper .theme-swiss .stat-num { color: #ffffff !important; }
+.poster-wrapper .theme-swiss .stat-item.win .stat-num { color: #ef4444 !important; }
+.poster-wrapper .theme-swiss .stat-item.rate .stat-num { color: #ef4444 !important; }
+.poster-wrapper .theme-swiss .stat-divider { background: #404040 !important; }
+
+/* 黑金 */
+.poster-wrapper .theme-blackgold { background: #050505 !important; background-image: radial-gradient(circle at 50% 0%, #2a2008 0%, transparent 70%) !important; box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(234, 179, 8, 0.3) !important; }
+.poster-wrapper .theme-blackgold::before { content:''; position:absolute; top:0; left:0; right:0; background: linear-gradient(90deg, transparent, #eab308, transparent); height: 2px; }
+.poster-wrapper .theme-blackgold .banner-en { color: #eab308 !important; letter-spacing: 10px; text-shadow: 0 0 10px rgba(234,179,8,0.4); }
+.poster-wrapper .theme-blackgold .banner-cn { color: #fef08a !important; font-size: 34px !important; text-shadow: 0 0 20px rgba(234,179,8,0.3); }
+.poster-wrapper .theme-blackgold .poster-table th { color: #a16207 !important; border-bottom: 1px solid #422006 !important; }
+.poster-wrapper .theme-blackgold .poster-table tbody tr td { background: #0a0a0a !important; border-left: 2px solid #eab308 !important; color: #fef08a !important; box-shadow: 0 2px 10px rgba(0,0,0,0.8), inset 0 1px 0 rgba(234,179,8,0.1) !important; }
+.poster-wrapper .theme-blackgold .poster-table tbody tr td:nth-child(1) { background: #171205 !important; color: #eab308 !important; }
+.poster-wrapper .theme-blackgold .sub-score { background: #422006; color: #eab308 !important; }
+.poster-wrapper .theme-blackgold .text-win { background: #eab308 !important; color: #000000 !important; border: none !important; box-shadow: 0 0 15px rgba(234,179,8,0.5) !important; font-weight: 900 !important; }
+.poster-wrapper .theme-blackgold .text-lose { background: transparent !important; color: #a16207 !important; border: 1px solid #422006 !important; }
+.poster-wrapper .theme-blackgold .poster-footer { color: #a16207 !important; border-top: 1px dashed #422006; }
+.poster-wrapper .theme-blackgold .poster-stats { background: #0a0a0a !important; border: 1px solid #eab308 !important; box-shadow: 0 0 20px rgba(234,179,8,0.15) !important; }
+.poster-wrapper .theme-blackgold .poster-stats .stat-label { color: #a16207 !important; }
+.poster-wrapper .theme-blackgold .stat-num { color: #fef08a !important; }
+.poster-wrapper .theme-blackgold .stat-item.win .stat-num { color: #eab308 !important; }
+.poster-wrapper .theme-blackgold .stat-item.rate .stat-num { color: #eab308 !important; }
+.poster-wrapper .theme-blackgold .stat-divider { background: #422006 !important; }
+
+/* 极简灰 */
+.poster-wrapper .theme-minimal { background: #ffffff !important; border: 1px solid #e5e5e5 !important; box-shadow: none !important; }
+.poster-wrapper .theme-minimal .poster-table { border-spacing: 0 0 !important; }
+.poster-wrapper .theme-minimal .banner-en { color: #a3a3a3 !important; }
+.poster-wrapper .theme-minimal .banner-cn { color: #000000 !important; }
+.poster-wrapper .theme-minimal .poster-table th { color: #737373 !important; border-top: 2px solid #000 !important; border-bottom: 1px solid #000 !important; background: #fafafa !important; }
+.poster-wrapper .theme-minimal .poster-table tbody tr td { background: transparent !important; box-shadow: none !important; border-bottom: 1px solid #e5e5e5 !important; border-radius: 0 !important; color: #171717 !important; }
+.poster-wrapper .theme-minimal .sub-score { background: transparent !important; border: none !important; color: #737373 !important; }
+.poster-wrapper .theme-minimal .text-win { background: transparent !important; color: #ef4444 !important; border: 1px solid #ef4444 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-minimal .text-lose { background: transparent !important; color: #000 !important; border: 1px solid #000 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-minimal .poster-footer { color: #a3a3a3 !important; border-top: 1px solid #e5e5e5; }
+.poster-wrapper .theme-minimal .poster-stats { background: transparent !important; border: 1px solid #e5e5e5 !important; border-radius: 0 !important; box-shadow: none !important; }
+.poster-wrapper .theme-minimal .stat-num { color: #000 !important; }
+.poster-wrapper .theme-minimal .stat-label { color: #171717 !important; }
+.poster-wrapper .theme-minimal .stat-item.win .stat-num { color: #ef4444 !important; }
+
+/* 蒸汽波 */
+.poster-wrapper .theme-retro { background: #fdf6e3 !important; border: 4px solid #2d2d2d !important; border-radius: 0 !important; box-shadow: 8px 8px 0 #2d2d2d !important; }
+.poster-wrapper .theme-retro .banner-en { color: #d97706 !important; font-weight: 900; }
+.poster-wrapper .theme-retro .banner-cn { color: #2d2d2d !important; font-size: 42px !important; letter-spacing: -1px; }
+.poster-wrapper .theme-retro .poster-table { border-spacing: 0 6px !important; }
+.poster-wrapper .theme-retro .poster-table th { color: #ffffff !important; background: #2d2d2d !important; border-radius: 100px !important; padding: 6px 12px !important; }
+.poster-wrapper .theme-retro .poster-table tbody tr td { background: transparent !important; border-bottom: 3px dashed #2d2d2d !important; border-radius: 0 !important; box-shadow: none !important; color: #2d2d2d !important; font-weight: 900 !important; }
+.poster-wrapper .theme-retro .sub-score { background: #2d2d2d !important; color: #fdf6e3 !important; border-radius: 4px !important; padding: 2px 6px !important; border: none !important; }
+.poster-wrapper .theme-retro .text-win { background: #d97706 !important; color: #fff !important; border: 2px solid #2d2d2d !important; border-radius: 8px !important; box-shadow: 2px 2px 0 #2d2d2d !important; }
+.poster-wrapper .theme-retro .text-lose { background: #57534e !important; color: #fff !important; border: 2px solid #2d2d2d !important; border-radius: 8px !important; box-shadow: 2px 2px 0 #2d2d2d !important; }
+.poster-wrapper .theme-retro .poster-footer { color: #2d2d2d !important; border-top: 4px solid #2d2d2d; }
+.poster-wrapper .theme-retro .poster-stats { background: #fff !important; border: 3px solid #2d2d2d !important; border-radius: 100px !important; box-shadow: 4px 4px 0 #2d2d2d !important; }
+.poster-wrapper .theme-retro .poster-stats .stat-label { color: #57534e !important; }
+.poster-wrapper .theme-retro .stat-num { color: #2d2d2d !important; }
+.poster-wrapper .theme-retro .stat-item.win .stat-num { color: #d97706 !important; }
+
+/* 魔方格 */
+.poster-wrapper .theme-rubik { background: #111827 !important; border: 1px solid #374151 !important; box-shadow: inset 0 0 0 1px #000 !important; }
+.poster-wrapper .theme-rubik .banner-en { color: #a78bfa !important; }
+.poster-wrapper .theme-rubik .banner-cn { color: #f3f4f6 !important; }
+.poster-wrapper .theme-rubik .poster-table { border-spacing: 4px !important; }
+.poster-wrapper .theme-rubik .poster-table th { color: #9ca3af !important; border: none !important; }
+.poster-wrapper .theme-rubik .poster-table tbody tr td { background: #1f2937 !important; border: none !important; border-radius: 8px !important; color: #e5e7eb !important; box-shadow: none !important; }
+.poster-wrapper .theme-rubik .poster-table tbody tr td:nth-child(1) { background: #312e81 !important; color: #c7d2fe !important; }
+.poster-wrapper .theme-rubik .poster-table tbody tr td:nth-child(2) { background: #4c1d95 !important; color: #ddd6fe !important; }
+.poster-wrapper .theme-rubik .poster-table tbody tr td:nth-child(3) { background: #1e3a8a !important; color: #bfdbfe !important; }
+.poster-wrapper .theme-rubik .poster-table tbody tr td:nth-child(4) { background: #0f766e !important; color: #99f6e4 !important; }
+.poster-wrapper .theme-rubik .poster-table tbody tr td:nth-child(6) { background: #9d174d !important; color: #fbcfe8 !important; }
+.poster-wrapper .theme-rubik .sub-score { background: #374151 !important; color: #d1d5db !important; }
+.poster-wrapper .theme-rubik .text-win { background: #8b5cf6 !important; color: #fff !important; border: none !important; border-radius: 6px !important; }
+.poster-wrapper .theme-rubik .text-lose { background: #374151 !important; color: #9ca3af !important; border: none !important; border-radius: 6px !important; }
+.poster-wrapper .theme-rubik .poster-footer { color: #9ca3af !important; border-top: 1px dashed #374151; }
+.poster-wrapper .theme-rubik .poster-stats { background: #1f2937 !important; border: 1px solid #374151 !important; border-radius: 8px !important; }
+.poster-wrapper .theme-rubik .stat-label { color: #e5e7eb !important; }
+.poster-wrapper .theme-rubik .stat-num { color: #a78bfa !important; }
+
+/* 冲刺红 */
+.poster-wrapper .theme-esports { background: #0f0f11 !important; border-top: 6px solid #ef4444 !important; box-shadow: 0 20px 40px rgba(239,68,68,0.15) !important; }
+.poster-wrapper .theme-esports .banner-en { color: #ef4444 !important; font-style: italic; font-size: 16px !important; }
+.poster-wrapper .theme-esports .banner-cn { color: #ffffff !important; text-transform: uppercase; font-style: italic; letter-spacing: 0; font-size: 40px !important; }
+.poster-wrapper .theme-esports .poster-table { border-spacing: 0 !important; }
+.poster-wrapper .theme-esports .poster-table th { color: #000000 !important; background: #ef4444 !important; font-style: italic; transform: skewX(-10deg); }
+.poster-wrapper .theme-esports .poster-table th > * { transform: skewX(10deg); }
+.poster-wrapper .theme-esports .poster-table tbody tr:nth-child(odd) td { background: #18181b !important; }
+.poster-wrapper .theme-esports .poster-table tbody tr:nth-child(even) td { background: #27272a !important; }
+.poster-wrapper .theme-esports .poster-table tbody tr td { border-radius: 0 !important; box-shadow: none !important; color: #ffffff !important; border-bottom: 1px solid #3f3f46 !important; }
+.poster-wrapper .theme-esports .poster-table tbody tr td:nth-child(1) { border-left: 4px solid #ef4444 !important; color: #ef4444 !important; font-style: italic; }
+.poster-wrapper .theme-esports .sub-score { background: transparent; border: none; color: #ef4444 !important; }
+.poster-wrapper .theme-esports .text-win { background: #ef4444 !important; color: #fff !important; border-radius: 0 !important; transform: skewX(-10deg); }
+.poster-wrapper .theme-esports .text-lose { background: #3f3f46 !important; color: #a1a1aa !important; border-radius: 0 !important; transform: skewX(-10deg); }
+.poster-wrapper .theme-esports .poster-footer { color: #ef4444 !important; border-top: 2px solid #ef4444; }
+.poster-wrapper .theme-esports .poster-stats { background: #18181b !important; border: 1px solid #ef4444 !important; border-radius: 0 !important; }
+.poster-wrapper .theme-esports .poster-stats .stat-label { font-style: italic; color: #ef4444 !important; }
+.poster-wrapper .theme-esports .stat-num { color: #ffffff !important; }
+.poster-wrapper .theme-esports .stat-item.win .stat-num { color: #ef4444 !important; }
+
+/* ================= 6. 新增 6 套主题 ================= */
+
+/* ================= 纯 CSS 硬核模拟：真·青绿山水 ================= */
+.poster-wrapper .theme-ink { 
+  /* 底色：带一点点青绿调的宣纸色 */
+  background-color: #f2f5f0 !important; 
+  
+  /* 用多重渐变模拟水墨远山、云雾缭绕和宣纸纹理 */
+  background-image: 
+    /* 左上角的青色远山 */
+    radial-gradient(ellipse at 0% 0%, rgba(107, 142, 135, 0.15) 0%, transparent 50%),
+    /* 右下角的黛色远山 */
+    radial-gradient(ellipse at 100% 100%, rgba(45, 60, 70, 0.12) 0%, transparent 60%),
+    /* 中间的水墨晕染 */
+    radial-gradient(circle at 40% 30%, rgba(0, 0, 0, 0.03) 0%, transparent 40%),
+    /* 宣纸的纵向纤维纹理 */
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0px, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 15px) !important;
+    
+  border: 1px solid #c8d1c9 !important; 
+  box-shadow: inset 0 0 80px rgba(107, 142, 135, 0.08), 0 15px 35px rgba(0,0,0,0.08) !important; 
+}
+
+/* 印章：红底白字的小方块 */
+.poster-wrapper .theme-ink .banner-en { 
+  color: #fff !important; 
+  background: #b91c1c !important; 
+  padding: 2px 10px !important; 
+  border-radius: 2px !important;
+  letter-spacing: 4px !important;
+  font-size: 10px !important;
+  margin-bottom: 8px !important;
+  box-shadow: 0 2px 5px rgba(185, 28, 28, 0.3);
+}
+
+/* 标题：墨黑色，带一点宣纸上的晕染感 */
+.poster-wrapper .theme-ink .banner-cn { 
+  color: #1c1917 !important; 
+  text-shadow: 1px 1px 3px rgba(255,255,255,0.8); 
+}
+
+/* 表头：墨绿/灰色 */
+.poster-wrapper .theme-ink .poster-table th { 
+  color: #4b5563 !important; 
+  border-bottom: 2px solid #6b8e87 !important; 
+}
+
+/* 表格行：去横线，加虚线，背景全透明融入画中 */
+.poster-wrapper .theme-ink .poster-table tbody tr td { 
+  background: transparent !important; 
+  border-bottom: 1px dashed rgba(107, 142, 135, 0.3) !important; 
+  color: #292524 !important; 
+}
+
+/* 🌟 核心重点：项目（第2列）和思路（第6列）用超大号毛笔字，像题字一样跃然纸上 */
+.poster-wrapper .theme-ink .poster-table tbody tr td:nth-child(2),
+.poster-wrapper .theme-ink .poster-table tbody tr td:nth-child(6) { 
+  font-size: 24px !important; 
+  color: #111 !important; 
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.9); 
+}
+
+/* 日期列：红色，像印章的朱砂 */
+.poster-wrapper .theme-ink .poster-table tbody tr td:nth-child(1) { 
+  color: #b91c1c !important; 
+}
+
+.poster-wrapper .theme-ink .sub-score { background: transparent; color: #b91c1c !important; }
+.poster-wrapper .theme-ink .text-win { background: #b91c1c !important; color: #f2f5f0 !important; }
+.poster-wrapper .theme-ink .text-lose { background: transparent !important; color: #6b7280 !important; border: 1px solid #9ca3af !important; }
+
+/* 数据条：半透明磨砂玻璃感，像镇纸 */
+.poster-wrapper .theme-ink .poster-stats { 
+  background: rgba(255, 255, 255, 0.6) !important; 
+  backdrop-filter: blur(4px);
+  border: 1px solid #c8d1c9 !important; 
+  border-radius: 4px !important; 
+}
+.poster-wrapper .theme-ink .stat-item.win .stat-num { color: #b91c1c !important; }
+.poster-wrapper .theme-ink .stat-divider { background: #c8d1c9 !important; }
+
+
+/* 2. 赛博票据 */
+.poster-wrapper .theme-receipt { background: #f8fafc !important; border: 1px solid #bfdbfe !important; border-radius: 2px !important; box-shadow: 0 10px 30px rgba(30,58,138,0.1) !important; }
+.poster-wrapper .theme-receipt::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background: repeating-linear-gradient(90deg, #1e3a8a 0 10px, transparent 10px 20px); }
+.poster-wrapper .theme-receipt::after { content:''; position:absolute; bottom:0; left:0; right:0; height:10px; background: radial-gradient(circle, transparent 50%, #f1f5f9 50%) 0 0 / 20px 20px; }
+.poster-wrapper .theme-receipt .banner-en { color: #1e40af !important; letter-spacing: 5px; }
+.poster-wrapper .theme-receipt .banner-cn { color: #1e3a8a !important; }
+.poster-wrapper .theme-receipt .poster-table th { color: #1e40af !important; border-bottom: 2px dashed #93c5fd !important; }
+.poster-wrapper .theme-receipt .poster-table tbody tr td { background: #ffffff !important; border-bottom: 1px dashed #dbeafe !important; border-radius: 0 !important; box-shadow: none !important; color: #1e293b !important; }
+.poster-wrapper .theme-receipt .poster-table tbody tr td:nth-child(1) { background: #eff6ff !important; color: #1d4ed8 !important; }
+.poster-wrapper .theme-receipt .sub-score { background: #dbeafe; color: #1e40af !important; border: none; }
+.poster-wrapper .theme-receipt .text-win { background: #1d4ed8 !important; color: #fff !important; border: none !important; border-radius: 0 !important; }
+.poster-wrapper .theme-receipt .text-lose { background: #e2e8f0 !important; color: #64748b !important; border: none !important; }
+.poster-wrapper .theme-receipt .poster-footer { color: #60a5fa !important; border-top: 2px dashed #bfdbfe; }
+.poster-wrapper .theme-receipt .poster-stats { background: #fff !important; border: 1px dashed #93c5fd !important; border-radius: 0 !important; }
+.poster-wrapper .theme-receipt .stat-label { color: #1e40af !important; }
+.poster-wrapper .theme-receipt .stat-num { color: #1e3a8a !important; }
+.poster-wrapper .theme-receipt .stat-item.win .stat-num { color: #1d4ed8 !important; }
+.poster-wrapper .theme-receipt .stat-divider { background: #bfdbfe !important; }
+
+/* 3. 国潮锦鲤 */
+.poster-wrapper .theme-koi { background: linear-gradient(160deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%) !important; border: 2px solid #fdba74 !important; border-radius: 20px !important; box-shadow: 0 12px 40px rgba(194,65,12,0.12) !important; }
+.poster-wrapper .theme-koi::before { content:''; position:absolute; top:-20px; right:-20px; width:150px; height:150px; background: radial-gradient(circle, rgba(251,146,60,0.4), transparent 70%); border-radius:50%; }
+.poster-wrapper .theme-koi .banner-en { color: #c2410c !important; letter-spacing: 4px; }
+.poster-wrapper .theme-koi .banner-cn { color: #9a3412 !important; }
+.poster-wrapper .theme-koi .poster-table th { color: #c2410c !important; border-bottom: 3px solid #fb923c !important; }
+.poster-wrapper .theme-koi .poster-table tbody tr td { background: rgba(255,255,255,0.6) !important; border: 1px solid rgba(251,146,60,0.2) !important; box-shadow: 0 4px 12px rgba(194,65,12,0.05) !important; color: #7c2d12 !important; border-radius: 10px !important; }
+.poster-wrapper .theme-koi .poster-table tbody tr td:nth-child(1) { background: #ffedd5 !important; color: #c2410c !important; }
+.poster-wrapper .theme-koi .sub-score { background: #fed7aa; color: #9a3412 !important; }
+.poster-wrapper .theme-koi .text-win { background: linear-gradient(135deg, #f97316, #dc2626) !important; color: #fff !important; border: none !important; border-radius: 6px !important; }
+.poster-wrapper .theme-koi .text-lose { background: #f5f5f4 !important; color: #a8a29e !important; border: 1px solid #e7e5e4 !important; }
+.poster-wrapper .theme-koi .poster-footer { color: #c2410c !important; border-top: 2px solid #fed7aa; }
+.poster-wrapper .theme-koi .poster-stats { background: rgba(255,255,255,0.85) !important; border: 2px solid #fdba74 !important; border-radius: 16px !important; box-shadow: 0 4px 16px rgba(194,65,12,0.08) !important; }
+.poster-wrapper .theme-koi .stat-label { color: #9a3412 !important; }
+.poster-wrapper .theme-koi .stat-num { color: #7c2d12 !important; }
+.poster-wrapper .theme-koi .stat-item.win .stat-num { color: #dc2626 !important; }
+.poster-wrapper .theme-koi .stat-divider { background: #fdba74 !important; }
+
+/* 4. 极客终端 */
+.poster-wrapper .theme-terminal { background: #0a0f0a !important; background-image: radial-gradient(circle at 50% 0%, #052e16 0%, transparent 70%) !important; border: 1px solid #22c55e !important; border-radius: 4px !important; box-shadow: 0 0 30px rgba(34,197,94,0.15), inset 0 0 40px rgba(0,0,0,0.8) !important; }
+.poster-wrapper .theme-terminal::before { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: repeating-linear-gradient(0deg, rgba(34,197,94,0.05) 0 1px, transparent 1px 3px); pointer-events:none; }
+.poster-wrapper .theme-terminal .banner-en { color: #22c55e !important; text-shadow: 0 0 8px rgba(34,197,94,0.6); letter-spacing: 4px; }
+.poster-wrapper .theme-terminal .banner-cn { color: #4ade80 !important; text-shadow: 0 0 10px rgba(34,197,94,0.5); }
+.poster-wrapper .theme-terminal .poster-table th { color: #22c55e !important; border-bottom: 1px solid #166534 !important; }
+.poster-wrapper .theme-terminal .poster-table tbody tr td { background: #0f1a0f !important; border: 1px solid #166534 !important; border-radius: 0 !important; box-shadow: inset 0 0 10px rgba(34,197,94,0.05) !important; color: #86efac !important; }
+.poster-wrapper .theme-terminal .poster-table tbody tr td:nth-child(1) { background: #000 !important; color: #22c55e !important; border-color: #22c55e !important; }
+.poster-wrapper .theme-terminal .sub-score { background: #052e16; color: #4ade80 !important; border: 1px solid #166534; }
+.poster-wrapper .theme-terminal .text-win { background: #22c55e !important; color: #0a0f0a !important; border: none !important; border-radius: 0 !important; font-weight: 900 !important; }
+.poster-wrapper .theme-terminal .text-lose { background: transparent !important; color: #4b5563 !important; border: 1px solid #166534 !important; }
+.poster-wrapper .theme-terminal .poster-footer { color: #22c55e !important; border-top: 1px dashed #166534; }
+.poster-wrapper .theme-terminal .poster-stats { background: #000 !important; border: 1px solid #22c55e !important; border-radius: 0 !important; }
+.poster-wrapper .theme-terminal .stat-label { color: #4ade80 !important; }
+.poster-wrapper .theme-terminal .stat-num { color: #22c55e !important; text-shadow: 0 0 8px rgba(34,197,94,0.5); }
+.poster-wrapper .theme-terminal .stat-item.win .stat-num { color: #4ade80 !important; }
+.poster-wrapper .theme-terminal .stat-divider { background: #166534 !important; }
+
+/* 2. 中式喜报（大红底，烫金双线，完全不一样的报喜风） */
+.poster-wrapper .theme-vintage { 
+  background-color: #dc2626 !important; 
+  background-image: radial-gradient(circle at 50% 50%, #ef4444 0%, #991b1b 100%) !important; 
+  border: 6px double #fcd34d !important; 
+  border-radius: 0 !important; 
+  box-shadow: 0 10px 40px rgba(153,27,27,0.6), inset 0 0 40px rgba(0,0,0,0.3) !important; 
+}
+.poster-wrapper .theme-vintage .banner-en { color: #fcd34d !important; letter-spacing: 8px; font-weight: 900; padding: 4px 0; }
+.poster-wrapper .theme-vintage .banner-cn { color: #fef08a !important; font-size: 46px !important; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.poster-wrapper .theme-vintage .poster-table th { color: #fef08a !important; border-bottom: 2px solid #fcd34d !important; }
+.poster-wrapper .theme-vintage .poster-table tbody tr td { background: transparent !important; border-bottom: 1px dashed rgba(252,211,77,0.4) !important; border-radius: 0 !important; box-shadow: none !important; color: #fef08a !important; }
+.poster-wrapper .theme-vintage .poster-table tbody tr td:nth-child(1) { color: #fcd34d !important; }
+.poster-wrapper .theme-vintage .sub-score { background: transparent; color: #fcd34d !important; border: none; }
+.poster-wrapper .theme-vintage .text-win { background: #fcd34d !important; color: #991b1b !important; border: none !important; font-weight: 900 !important; border-radius: 2px !important; }
+.poster-wrapper .theme-vintage .text-lose { background: transparent !important; color: #fca5a5 !important; border: 1px solid #fca5a5 !important; }
+.poster-wrapper .theme-vintage .poster-footer { color: #fcd34d !important; border-top: 2px solid #fcd34d; }
+.poster-wrapper .theme-vintage .poster-stats { background: rgba(0,0,0,0.2) !important; border: 1px solid #fcd34d !important; border-radius: 0 !important; padding: 8px 40px !important; }
+.poster-wrapper .theme-vintage .stat-label { color: #fef08a !important; }
+.poster-wrapper .theme-vintage .stat-num { color: #fcd34d !important; }
+.poster-wrapper .theme-vintage .stat-item.win .stat-num { color: #fef08a !important; }
+.poster-wrapper .theme-vintage .stat-divider { background: #fcd34d !important; }
+
+/* 6. 手账贴纸 */
+.poster-wrapper .theme-journal { background: #fdf2f8 !important; background-image: linear-gradient(45deg, rgba(244,114,182,0.05) 25%, transparent 25%, transparent 75%, rgba(244,114,182,0.05) 75%, rgba(244,114,182,0.05)), linear-gradient(45deg, rgba(244,114,182,0.05) 25%, transparent 25%, transparent 75%, rgba(244,114,182,0.05) 75%, rgba(244,114,182,0.05)) !important; background-size: 20px 20px !important; background-position: 0 0, 10px 10px !important; border: 2px dashed #f9a8d4 !important; border-radius: 18px !important; box-shadow: 0 10px 30px rgba(190,24,93,0.1) !important; }
+.poster-wrapper .theme-journal::before { content:''; position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg); width:100px; height:24px; background: rgba(251,207,232,0.8); border-left:1px dashed #f472b6; border-right:1px dashed #f472b6; }
+.poster-wrapper .theme-journal .banner-en { color: #be185d !important; letter-spacing: 3px; }
+.poster-wrapper .theme-journal .banner-cn { color: #831843 !important; }
+.poster-wrapper .theme-journal .poster-table th { color: #be185d !important; border-bottom: 2px dotted #f9a8d4 !important; }
+.poster-wrapper .theme-journal .poster-table tbody tr td { background: #fff !important; border: 1px solid #fce7f3 !important; border-radius: 10px !important; box-shadow: 0 2px 6px rgba(190,24,93,0.05) !important; color: #831843 !important; }
+.poster-wrapper .theme-journal .poster-table tbody tr:nth-child(odd) td:nth-child(1) { transform: rotate(-1.5deg); }
+.poster-wrapper .theme-journal .poster-table tbody tr:nth-child(even) td:nth-child(1) { transform: rotate(1.5deg); }
+.poster-wrapper .theme-journal .poster-table tbody tr td:nth-child(1) { background: #fdf2f8 !important; color: #be185d !important; }
+.poster-wrapper .theme-journal .sub-score { background: #fce7f3; color: #be185d !important; border: none; }
+.poster-wrapper .theme-journal .text-win { background: #ec4899 !important; color: #fff !important; border: none !important; border-radius: 20px !important; }
+.poster-wrapper .theme-journal .text-lose { background: #f5f5f4 !important; color: #a8a29e !important; border: 1px solid #e7e5e4 !important; border-radius: 20px !important; }
+.poster-wrapper .theme-journal .poster-footer { color: #be185d !important; border-top: 2px dashed #f9a8d4; }
+.poster-wrapper .theme-journal .poster-stats { background: #fff !important; border: 2px solid #f9a8d4 !important; border-radius: 16px !important; box-shadow: 0 4px 12px rgba(190,24,93,0.08) !important; }
+.poster-wrapper .theme-journal .stat-label { color: #9d174d !important; }
+.poster-wrapper .theme-journal .stat-num { color: #831843 !important; }
+.poster-wrapper .theme-journal .stat-item.win .stat-num { color: #ec4899 !important; }
+.poster-wrapper .theme-journal .stat-divider { background: #fbcfe8 !important; }
+
+/* ================= 💥 炸裂的 10 套全新主题 ================= */
+
+/* 1. 枪火金属 (碳纤维黑底 + 金属拉丝边框 + 3D浮雕字) */
+.poster-wrapper .theme-metal { 
+  background: #18181b !important; 
+  border: 4px solid #52525b !important; 
+  border-radius: 0 !important; 
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.6) !important; 
+}
+.poster-wrapper .theme-metal .banner-cn { 
+  color: #e4e4e7 !important; 
+  text-shadow: 0 2px 0 #27272a, 0 4px 0 #18181b, 0 6px 10px rgba(0,0,0,0.9) !important; 
+}
+.poster-wrapper .theme-metal .poster-table th { background: #27272a !important; color: #a1a1aa !important; border: 2px solid #3f3f46 !important; }
+.poster-wrapper .theme-metal .poster-table tbody tr td { background: linear-gradient(180deg, #27272a 0%, #18181b 100%) !important; border: 1px solid #3f3f46 !important; color: #d4d4d8 !important; }
+.poster-wrapper .theme-metal .text-win { background: #ef4444 !important; color: #fff !important; border-radius: 0 !important; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.3) !important; }
+
+/* 2. 波普漫画 (高饱和 + 漫画网点) */
+.poster-wrapper .theme-pop { 
+  background: #fef08a !important; 
+  background-image: radial-gradient(#ef4444 1.5px, transparent 1.5px) !important; 
+  background-size: 12px 12px !important; 
+  border: 4px solid #000 !important; 
+  box-shadow: 8px 8px 0 #000 !important; 
+}
+.poster-wrapper .theme-pop .banner-cn { color: #3b82f6 !important; -webkit-text-stroke: 1px #000; text-shadow: 4px 4px 0 #ef4444 !important; font-weight: 900 !important; }
+.poster-wrapper .theme-pop .poster-table th { background: #3b82f6 !important; color: #fff !important; border: 3px solid #000 !important; text-shadow: 1px 1px 0 #000; }
+.poster-wrapper .theme-pop .poster-table tbody tr td { background: #fff !important; border: 2px solid #000 !important; color: #000 !important; font-weight: 900 !important; }
+.poster-wrapper .theme-pop .text-win { background: #ef4444 !important; color: #fff !important; border: 2px solid #000 !important; box-shadow: 3px 3px 0 #000 !important; }
+
+/* 3. 罪恶都市 (赛博紫蓝光晕) */
+.poster-wrapper .theme-vice { 
+  background: #0f0c29 !important; 
+  background-image: linear-gradient(to right bottom, #0f0c29, #302b63, #24243e) !important; 
+}
+.poster-wrapper .theme-vice .banner-cn { color: #ff00cc !important; text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc !important; }
+.poster-wrapper .theme-vice .poster-table th { color: #00f2fe !important; border-bottom: 2px solid #00f2fe !important; text-shadow: 0 0 5px #00f2fe !important; }
+.poster-wrapper .theme-vice .poster-table tbody tr td { 
+  background: rgba(48, 43, 99, 0.6) !important; 
+  border: 1px solid rgba(0, 242, 254, 0.4) !important; 
+  box-shadow: inset 0 0 10px rgba(0, 242, 254, 0.1) !important; 
+  color: #fff !important; 
+}
+.poster-wrapper .theme-vice .text-win { background: transparent !important; color: #00f2fe !important; border: 1px solid #00f2fe !important; box-shadow: 0 0 15px #00f2fe !important; }
+
+/* 4. 警告警戒 (黄黑警示条纹背景) */
+.poster-wrapper .theme-hazard { 
+  background: #facc15 !important; 
+  background-image: repeating-linear-gradient(45deg, #000 0, #000 10px, transparent 10px, transparent 20px) !important; 
+  border: 4px solid #000 !important; 
+}
+.poster-wrapper .theme-hazard .banner-cn { color: #000 !important; background: #facc15 !important; padding: 0 20px; display: inline-block; transform: skewX(-10deg); border: 3px solid #000; box-shadow: 4px 4px 0 #000; }
+.poster-wrapper .theme-hazard .poster-table { background: #facc15 !important; border: 3px solid #000 !important; border-collapse: collapse !important; }
+.poster-wrapper .theme-hazard .poster-table th { background: #000 !important; color: #facc15 !important; border: 2px solid #facc15 !important; }
+.poster-wrapper .theme-hazard .poster-table tbody tr td { border: 2px solid #000 !important; color: #000 !important; font-weight: 900 !important; }
+.poster-wrapper .theme-hazard .text-win { background: #000 !important; color: #facc15 !important; }
+
+/* 5. 极简霓虹 (纯黑背景+亮青色细线) */
+.poster-wrapper .theme-neon2 { background: #000000 !important; border: 1px solid #00ffff !important; box-shadow: 0 0 20px rgba(0,255,255,0.2) !important; }
+.poster-wrapper .theme-neon2 .banner-cn { color: #fff !important; text-shadow: 0 0 8px #00ffff !important; }
+.poster-wrapper .theme-neon2 .poster-table th { color: #00ffff !important; border-bottom: 1px dashed #00ffff !important; }
+.poster-wrapper .theme-neon2 .poster-table tbody tr td { background: transparent !important; border-bottom: 1px solid rgba(0, 255, 255, 0.2) !important; color: #e5e5e5 !important; }
+.poster-wrapper .theme-neon2 .text-win { background: transparent !important; color: #00ffff !important; border: 1px solid #00ffff !important; border-radius: 0 !important; }
+
+/* 6. 绝密档案 (复古牛皮纸+红色印章) */
+.poster-wrapper .theme-secret { 
+  background: #e8dfca !important; 
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,0,0,0.06) 30px, rgba(0,0,0,0.06) 31px) !important; 
+  border: 2px solid #44403c !important; 
+}
+.poster-wrapper .theme-secret .banner-cn { color: #b91c1c !important; letter-spacing: 4px; border-bottom: 3px double #b91c1c; padding-bottom: 4px; }
+.poster-wrapper .theme-secret .poster-table th { background: #d6d3d1 !important; color: #292524 !important; border-bottom: 2px solid #292524 !important; }
+.poster-wrapper .theme-secret .poster-table tbody tr td { background: transparent !important; border-bottom: 1px solid #a8a29e !important; color: #1c1917 !important; }
+.poster-wrapper .theme-secret .text-win { border: 2px solid #b91c1c !important; color: #b91c1c !important; background: transparent !important; transform: rotate(-3deg); font-weight: 900 !important; }
+
+/* 7. 腥红之月 (暗黑红底+血红字) */
+.poster-wrapper .theme-blood { 
+  background: #1a0505 !important; 
+  background-image: radial-gradient(circle at 50% 0%, #450a0a 0%, transparent 70%) !important; 
+  border: 2px solid #7f1d1d !important; 
+}
+.poster-wrapper .theme-blood .banner-cn { color: #dc2626 !important; text-shadow: 0 0 15px rgba(220, 38, 38, 0.6) !important; }
+.poster-wrapper .theme-blood .poster-table th { color: #b91c1c !important; border-bottom: 2px solid #7f1d1d !important; }
+.poster-wrapper .theme-blood .poster-table tbody tr td { background: rgba(69, 10, 10, 0.4) !important; border: 1px solid #7f1d1d !important; color: #fca5a5 !important; }
+.poster-wrapper .theme-blood .text-win { background: #dc2626 !important; color: #fff !important; box-shadow: 0 0 10px #dc2626 !important; }
+
+/* 8. 赛博机甲 (深蓝装甲+斜切角) */
+.poster-wrapper .theme-mecha { 
+  background: #111827 !important; 
+  border: 3px solid #3b82f6 !important; 
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%); 
+  box-shadow: inset 0 0 30px rgba(59,130,246,0.2) !important; 
+}
+.poster-wrapper .theme-mecha .banner-cn { color: #60a5fa !important; text-transform: uppercase; font-style: italic; }
+.poster-wrapper .theme-mecha .poster-table th { background: #1e3a8a !important; color: #93c5fd !important; border: 2px solid #3b82f6 !important; transform: skewX(-10deg); }
+.poster-wrapper .theme-mecha .poster-table tbody tr td { background: rgba(30, 58, 138, 0.3) !important; border: 1px solid #3b82f6 !important; color: #e5e7eb !important; }
+.poster-wrapper .theme-mecha .text-win { background: #3b82f6 !important; color: #fff !important; border-radius: 0 !important; }
+
+/* 9. 废土末世 (锈迹斑斑+粗野边框) */
+.poster-wrapper .theme-wasteland { 
+  background: #44403c !important; 
+  background-image: radial-gradient(#292524 2px, transparent 2px) !important; 
+  background-size: 20px 20px !important; 
+  border: 4px dashed #d97706 !important; 
+}
+.poster-wrapper .theme-wasteland .banner-cn { color: #d97706 !important; text-shadow: 2px 2px 0 #000 !important; }
+.poster-wrapper .theme-wasteland .poster-table th { color: #d97706 !important; border-bottom: 3px solid #d97706 !important; }
+.poster-wrapper .theme-wasteland .poster-table tbody tr td { background: #292524 !important; border: 1px solid #57534e !important; color: #d6d3d1 !important; }
+.poster-wrapper .theme-wasteland .text-win { background: #d97706 !important; color: #000 !important; font-weight: 900 !important; }
+
+/* 10. 极光幻境 (全息渐变底色) */
+.poster-wrapper .theme-aurora { 
+  background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 50%, #f472b6 100%) !important; 
+  border: 2px solid #fff !important; 
+  box-shadow: 0 0 40px rgba(167, 139, 250, 0.4) !important; 
+}
+.poster-wrapper .theme-aurora .banner-cn { color: #fff !important; text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important; }
+.poster-wrapper .theme-aurora .poster-table th { color: #fff !important; border-bottom: 2px solid rgba(255,255,255,0.6) !important; }
+.poster-wrapper .theme-aurora .poster-table tbody tr td { background: rgba(255, 255, 255, 0.2) !important; border: 1px solid rgba(255, 255, 255, 0.4) !important; color: #fff !important; text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important; }
+.poster-wrapper .theme-aurora .text-win { background: #fff !important; color: #a78bfa !important; border: none !important; font-weight: 900 !important; }
