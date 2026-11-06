@@ -183,7 +183,7 @@ async function submitImport() {
     const lines = pasteData.value.trim().split('\n')
     const recordsToAdd = []
     for (let line of lines) {
-      const cols = line.split('\t').length > 1 ? line.split('\t') : line.split(',')
+      const cols = line.replace(/\t/g, ',').split(',').map(s => s.trim())
       if (cols.length < 4) continue
       recordsToAdd.push({
         date: cols[0]?.trim() || new Date().toISOString().split('T')[0],
