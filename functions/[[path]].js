@@ -276,40 +276,6 @@ export async function onRequest(context) {
     }
   }
 
-    // ========== 批量导入接口 (新增) ==========
-  if (pathname === '/api/records/batch_import' && request.method === 'POST') {
-    try {
-      const body = await request.json()
-      if (!body.records || body.records.length === 0) {
-        return new Response(JSON.stringify({ error: '无数据' }), { status: 400, headers })
-      }
-      
-      const stmt = env.DB.prepare('INSERT INTO records (user_id, date, project, match_info, teams, result, thought, outcome, extra_data) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
-      
-      // 把所有的记录打包成一个 Batch 一次性执行
-      const batch = body.records.map((r) => {
-        const parts = (r.date || '').replace(/\//g, '-').split('-');
-        const dateStr = parts.length === 3 ? `${parts[0]}/${parts[1].padStart(2, '0')}/${parts[2].padStart(2, '0')}` : r.date;
-        return stmt.bind(
-          currentUserId, 
-          dateStr, 
-          r.project || '', 
-          r.match_info || '', 
-          r.teams || '', 
-          r.result || '', 
-          r.thought || '', 
-          r.outcome || '红', 
-          JSON.stringify(r.extra_data || {})
-        )
-      })
-      
-      await env.DB.batch(batch) // D1 数据库特有的批量写入
-      return new Response(JSON.stringify({ ok: true, count: body.records.length }), { headers })
-    } catch (err) {
-      return new Response(JSON.stringify({ error: err.message }), { status: 500, headers })
-    }
-  }
-
   if (pathname === '/api/records/batch_delete' && request.method === 'POST') {
     const { ids } = await request.json()
     if (!ids || ids.length === 0) return new Response(JSON.stringify({ error: '未选择' }), { status: 400, headers })
