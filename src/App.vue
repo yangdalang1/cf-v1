@@ -20,16 +20,18 @@ const isSidebarCollapsed = ref(false)
 const showDictPanel = ref(false)
 const showRecordForm = ref(localStorage.getItem('show_record_form') !== 'false')
 
-// 👇 新增：隐藏战绩项目的状态
+// 隐藏战绩项目的状态
 const hiddenProjects = ref<string[]>(JSON.parse(localStorage.getItem('hidden_projects') || '[]'))
 watch(hiddenProjects, (val) => localStorage.setItem('hidden_projects', JSON.stringify(val)), { deep: true })
 
-// 切换隐藏项目
+// 切换隐藏项目（带提示）
 const toggleHideProject = (projectName: string) => {
   if (hiddenProjects.value.includes(projectName)) {
     hiddenProjects.value = hiddenProjects.value.filter(p => p !== projectName)
+    showToast(`已取消隐藏：${projectName}`)
   } else {
     hiddenProjects.value.push(projectName)
+    showToast(`已隐藏：${projectName}`)
   }
 }
 
@@ -41,7 +43,7 @@ let toastTimer: any = null
 function showToast(msg: string, type: 'success' | 'error' = 'success') {
   toast.value = { show: true, msg, type }
   if (toastTimer) clearTimeout(toastTimer)
-  toastTimer = setTimeout(() => { toast.value.show = false }, 1200)
+  toastTimer = setTimeout(() => { toast.value.show = false }, 2000)
 }
 
 const loggingIn = ref(false)
@@ -113,9 +115,7 @@ watch(hiddenIds, (val) => {
 // 过滤表格数据（加入了隐藏项目的过滤）
 const visibleRecords = computed(() => {
   return records.value.filter(r => {
-    // 1. 过滤掉被单条隐藏的数据
     if (hiddenIds.value.includes(r.id)) return false
-    // 2. 过滤掉被选中的隐藏项目
     if (hiddenProjects.value.includes(r.project)) return false
     return true
   })
@@ -139,7 +139,7 @@ function toggleMenu(id: number, event: MouseEvent) {
 function hideRecord(id: number) {
   if (!hiddenIds.value.includes(id)) {
     hiddenIds.value.push(id)
-    showToast('已隐藏该数据')
+    showToast('已隐藏该条数据')
   }
   activeMenuId.value = null
 }
@@ -615,7 +615,8 @@ onMounted(() => {
                 </div>
               </div>
 
-              <Zidian embedded :outcomes="outcomes" :projects="projects" :dynamic-fields="dynamicFields" @refresh="loadDict" />
+              <!-- 字典组件传入了 @toast -->
+              <Zidian embedded :outcomes="outcomes" :projects="projects" :dynamic-fields="dynamicFields" @refresh="loadDict" @toast="(msg: string, type: string) => showToast(msg, type as 'success'|'error')" />
             </div>
           </div>
 
@@ -749,6 +750,7 @@ onMounted(() => {
         </div>
 
         <Zhanghao v-if="currentTab === 'users' && isAdmin" :user-list="userList" :my-id="myId" @refresh="loadAdminUsers" />
+        <!-- 海报组件传入了过滤后的 visibleRecords -->
         <Haibao v-if="currentTab === 'front'" :records="visibleRecords" :all-columns="allColumns" @update-cols="(cols: any[]) => columns = cols" />
       </div>
     </main>

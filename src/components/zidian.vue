@@ -9,7 +9,8 @@ const props = defineProps<{
   embedded?: boolean
 }>()
 
-const emit = defineEmits(['refresh'])
+// 新增了 toast 事件
+const emit = defineEmits(['refresh', 'toast'])
 
 const newOutcome = ref('')
 const newProject = ref('')
@@ -25,22 +26,32 @@ async function addDictItem(type: string, val: string) {
   if (type === 'fields') await saveDict(type, [...props.dynamicFields, { name: val, sort_order: props.dynamicFields.length }])
   else await saveDict(type, [...(type === 'outcome' ? props.outcomes : props.projects), val])
   
+  // 添加成功的提示
+  emit('toast', `成功添加：${val}`, 'success')
+
   if (type === 'outcome') newOutcome.value = ''
   else if (type === 'project') newProject.value = ''
   else newField.value = ''
 }
 
 async function removeDictItem(type: string, index: number) {
-  if (!await confirm('确定要删除这一项吗？')) return // ✅ 只加了一个 await
+  if (!await confirm('确定要删除这一项吗？')) return
+  
+  let deletedItem = ''
   if (type === 'fields') { 
     const arr = [...props.dynamicFields]
+    deletedItem = arr[index].name
     arr.splice(index, 1)
     await saveDict(type, arr)
   } else { 
     const arr = [...(type === 'outcome' ? props.outcomes : props.projects)]
+    deletedItem = arr[index]
     arr.splice(index, 1)
     await saveDict(type, arr) 
   }
+  
+  // 删除成功的提示
+  emit('toast', `已删除：${deletedItem}`, 'success')
 }
 </script>
 
@@ -99,7 +110,6 @@ async function removeDictItem(type: string, index: number) {
 </template>
 
 <style scoped>
-/* ========== 基础重置 ========== */
 .zidian-embedded { width: 100%; }
 .zidian-embedded .zidian-3-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 @media (max-width: 1024px) { .zidian-embedded .zidian-3-col { grid-template-columns: repeat(2, 1fr); } }
