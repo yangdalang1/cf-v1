@@ -72,7 +72,6 @@ const records = ref<any[]>([])
 const total = ref(0)
 const page = ref(1)
 const pageSize = ref(20)
-const isSinglePage = ref(false)
 
 const filterProjects = ref<string[]>([])
 const filterEvents = ref<string[]>([])
@@ -89,40 +88,34 @@ const hiddenIds = ref<number[]>([])
 const activeMenuId = ref<number | null>(null)
 const menuPosition = ref({ top: 0, left: 0 })
 
-// 初始化读取缓存
 try {
   const stored = localStorage.getItem('hidden_records')
   if (stored) hiddenIds.value = JSON.parse(stored)
 } catch (e) { hiddenIds.value = [] }
 
-// 监听并持久化隐藏列表
 watch(hiddenIds, (val) => {
   localStorage.setItem('hidden_records', JSON.stringify(val))
 }, { deep: true })
 
-// 过滤表格数据
 const visibleRecords = computed(() => {
   return records.value.filter(r => !hiddenIds.value.includes(r.id))
 })
 
-// 切换三个点菜单（计算坐标防止被遮挡）
 function toggleMenu(id: number, event: MouseEvent) {
   if (activeMenuId.value === id) {
     activeMenuId.value = null
     return
   }
   const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
-  // 判断下方空间是否足够
   const spaceBelow = window.innerHeight - rect.bottom
   const isUp = spaceBelow < 180
   menuPosition.value = {
-    top: isUp ? rect.top - 130 : rect.bottom + 6, // 如果下方不够，就向上弹
-    left: rect.left - 60 // 向左偏移一点，居中一点
+    top: isUp ? rect.top - 130 : rect.bottom + 6,
+    left: rect.left - 60
   }
   activeMenuId.value = id
 }
 
-// 隐藏单条数据
 function hideRecord(id: number) {
   if (!hiddenIds.value.includes(id)) {
     hiddenIds.value.push(id)
@@ -131,25 +124,21 @@ function hideRecord(id: number) {
   activeMenuId.value = null
 }
 
-// 恢复所有隐藏数据
 function restoreAll() {
   if (hiddenIds.value.length === 0) return
   hiddenIds.value = []
   showToast('已恢复所有隐藏数据')
 }
 
-// 点击任意空白处关闭菜单
 onMounted(() => {
   document.addEventListener('click', () => { activeMenuId.value = null })
 })
 
 const selectedIds = ref<number[]>([])
 const toggleSelectAll = () => {
-  // 如果当前勾选的数量等于当前可见的数据量，就清空
   if (selectedIds.value.length === visibleRecords.value.length && visibleRecords.value.length > 0) {
     selectedIds.value = []
   } else {
-    // 否则就全选当前可见的行
     selectedIds.value = visibleRecords.value.map(r => r.id)
   }
 }
@@ -170,7 +159,7 @@ function openEdit(row: any) {
 // ========== 批量导入 ==========
 const showImportModal = ref(false)
 const pasteData = ref('')
-const isImporting = ref(false) // 新增：导入状态控制
+const isImporting = ref(false)
 
 function openImport() { 
   pasteData.value = ''
@@ -179,25 +168,19 @@ function openImport() {
 
 async function submitImport() {
   if (!pasteData.value.trim()) return showToast('请先粘贴数据', 'error')
-  if (isImporting.value) return // 防止重复点击
+  if (isImporting.value) return
   
-  // 1. 兼容各种奇怪的换行符（WPS/Excel/网页复制）
   const lines = pasteData.value.trim().split(/\r?\n/)
   const recordsToAdd = []
   
   for (let line of lines) {
-    if (!line.trim()) continue // 跳过空行
-    
-    // 2. 核心修复：先找 Tab（制表符），找不到再用逗号，最后用多个连续空格作为兜底
+    if (!line.trim()) continue
     let cols = line.split('\t')
     if (cols.length < 4) cols = line.split(',')
-    if (cols.length < 4) cols = line.split(/\s{2,}/) // 连续两个以上空格
+    if (cols.length < 4) cols = line.split(/\s{2,}/)
 
-    // 只要列数大于等于 3 就尝试录入
     if (cols.length >= 3) {
-      // 清洗数据，去掉首尾多余空格
       const cleanCols = cols.map(c => c.trim())
-      
       recordsToAdd.push({
         date: cleanCols[0] || new Date().toISOString().split('T')[0],
         project: cleanCols[1] || '默认项目',
@@ -216,10 +199,7 @@ async function submitImport() {
   try {
     isImporting.value = true
     showToast(`正在极速导入 ${recordsToAdd.length} 条数据...`, 'success')
-    
-    // 3. 极速导入：只发一次请求，把整个数组传给后端
     await axios.post('/api/records/batch_add', { records: recordsToAdd })
-    
     showImportModal.value = false
     await loadFilterOptions()
     loadRecords()
@@ -332,8 +312,6 @@ async function loadFilterOptions() {
     if (isAdmin.value) payload.target_user = targetUser.value
     const res = await axios.post('/api/records/filter-options', payload, { signal: optionsAbort.signal })
     filterOptions.value = res.data
-    // 方式一：清理冲突已选
-   
   } catch (e: any) {
     if (e.name === 'CanceledError' || e.code === 'ERR_CANCELED') return
   }
@@ -345,12 +323,11 @@ let filterTimer: any = null
 function onFilterChange() {
   if (filterTimer) clearTimeout(filterTimer)
   filterTimer = setTimeout(async () => {
-    // 改为 Promise.all 并行，且防抖改为 500ms
     Promise.all([
       loadFilterOptions(),
       loadRecords()
     ])
-  }, 500) // 500毫秒防抖
+  }, 500)
 }
 
 function clearFilter(which: 'project' | 'event' | 'outcome' | 'date') {
@@ -378,8 +355,8 @@ async function loadRecords() {
   if (recordsAbort) recordsAbort.abort()
   recordsAbort = new AbortController()
   const params: any = {
-    page: isSinglePage.value ? 1 : page.value,
-    pageSize: isSinglePage.value ? 9999 : pageSize.value,
+    page: page.value,
+    pageSize: pageSize.value,
     start_date: fixDate(filterDateStart.value),
     end_date: fixDate(filterDateEnd.value)
   }
@@ -399,10 +376,11 @@ async function loadRecords() {
 }
 
 watch([filterProjects, filterEvents, filterOutcomes, filterDateStart, filterDateEnd, targetUser], onFilterChange, { deep: true })
-watch(page, () => {
+
+watch(pageSize, () => {
+  page.value = 1
   loadRecords()
 })
-
 
 // ========== 增删改 ==========
 async function addRecord() {
@@ -473,15 +451,12 @@ async function initData() {
   await loadFilterOptions()
   await loadRecords()
 }
-// 👇 这是全新的 onMounted，替换掉你刚才删的那一行
+
 onMounted(() => { 
-  // 1. 先执行你原本的数据加载逻辑
   if (isLogged.value) { 
     initData()
     if (isAdmin.value) loadAdminUsers() 
   }
-  
-  // 2. 延迟 100 毫秒，确保 Vue 渲染完毕，然后隐藏 index.html 里的加载动画
   setTimeout(() => {
     const loader = document.getElementById('global-loader')
     if (loader) loader.style.display = 'none'
@@ -726,17 +701,17 @@ onMounted(() => {
               </table>
             </div>
 
+            <!-- 分页器：单页到底已删除，50条修复 -->
             <div class="pagination" style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px; align-items:center;">
-              <label style="font-size:13px; display:flex; align-items:center; gap:5px;"><input type="checkbox" v-model="isSinglePage" /> 单页滑到底</label>
-              <template v-if="!isSinglePage">
-  <!-- 去掉了 loadRecords()，只改页码 -->
-  <button class="page-btn" :disabled="page <= 1" @click="page--">上一页</button>
-  <span>{{ page }} / {{ Math.ceil(total / pageSize) || 1 }}</span>
-  <button class="page-btn" :disabled="page >= Math.ceil(total / pageSize)" @click="page++">下一页</button>
-  
-  <!-- 这里的 BaseSelect，把 @change 也简化，只改页码，交给 watch 统一处理 -->
-  <BaseSelect v-model="pageSize" :options="[{label: '10条/页', value: 10}, {label: '20条/页', value: 20}, {label: '50条/页', value: 50}]" style="width:110px;" @change="() => { page = 1 }" />
-</template>
+              <button class="page-btn" :disabled="page <= 1" @click="page--">上一页</button>
+              <span>{{ page }} / {{ Math.ceil(total / pageSize) || 1 }}</span>
+              <button class="page-btn" :disabled="page >= Math.ceil(total / pageSize)" @click="page++">下一页</button>
+              
+              <BaseSelect 
+                v-model="pageSize" 
+                :options="[{label: '10条/页', value: 10}, {label: '20条/页', value: 20}, {label: '50条/页', value: 50}]" 
+                style="width:110px;" 
+              />
             </div>
           </div>
         </div>
