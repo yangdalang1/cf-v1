@@ -170,34 +170,49 @@ function openEdit(row: any) {
 // ========== 批量导入 ==========
 const showImportModal = ref(false)
 const pasteData = ref('')
+const isImporting = ref(false)
 function openImport() { pasteData.value = ''; showImportModal.value = true }
 
 async function submitImport() {
   if (!pasteData.value.trim()) return showToast('请先粘贴数据', 'error')
-  const lines = pasteData.value.trim().split('\n')
-  const recordsToAdd = []
-  for (let line of lines) {
-    const cols = line.split('\t').length > 1 ? line.split('\t') : line.split(',')
-    if (cols.length < 4) continue
-    recordsToAdd.push({
-      date: cols[0]?.trim() || new Date().toISOString().split('T')[0],
-      project: cols[1]?.trim() || '默认项目',
-      match_info: cols[2]?.trim() || '',
-      teams: cols[3]?.trim() || '',
-      result: cols[4]?.trim() || '',
-      thought: cols[5]?.trim() || '',
-      outcome: cols[6]?.trim() || '红',
-      extra_data: {}
-    })
-  }
-  if (recordsToAdd.length === 0) return showToast('格式不对，未识别到有效数据', 'error')
+  if (isImporting.value) return
+
+  isImporting.value = true // 开启加载状态
+
   try {
-    for (const record of recordsToAdd) await axios.post('/api/records', { ...record, extra_data: JSON.stringify(record.extra_data) })
+    const lines = pasteData.value.trim().split('\n')
+    const recordsToAdd = []
+    for (let line of lines) {
+      const cols = line.split('\t').length > 1 ? line.split('\t') : line.split(',')
+      if (cols.length < 4) continue
+      recordsToAdd.push({
+        date: cols[0]?.trim() || new Date().toISOString().split('T')[0],
+        project: cols[1]?.trim() || '默认项目',
+        match_info: cols[2]?.trim() || '',
+        teams: cols[3]?.trim() || '',
+        result: cols[4]?.trim() || '',
+        thought: cols[5]?.trim() || '',
+        outcome: cols[6]?.trim() || '红',
+        extra_data: {}
+      })
+    }
+    if (recordsToAdd.length === 0) {
+      isImporting.value = false
+      return showToast('格式不对，未识别到有效数据', 'error')
+    }
+
+    // 👇 核心改动：一次性把数组发给后端的批量接口
+    await axios.post('/api/records/batch_import', { records: recordsToAdd })
+    
     showImportModal.value = false
     await loadFilterOptions()
     loadRecords()
     showToast(`成功导入 ${recordsToAdd.length} 条数据！`)
-  } catch (e: any) { showToast('导入失败: ' + (e.response?.data?.error || e.message), 'error') }
+  } catch (e: any) {
+    showToast('导入失败: ' + (e.response?.data?.error || e.message), 'error')
+  } finally {
+    isImporting.value = false // 关闭加载状态
+  }
 }
 
 async function saveEdit() {
@@ -743,8 +758,12 @@ onMounted(() => { if (isLogged.value) { initData(); if (isAdmin.value) loadAdmin
         <textarea v-model="pasteData" rows="8" placeholder="2026-11-02&#9;拍案叫绝&#9;016/英超&#9;利物浦vs阿森纳&#9;1:0&#9;胜&#9;红" style="width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-family: monospace; font-size: 13px; outline: none; resize: vertical; background: #f8fafc;"></textarea>
         <div style="display:flex; justify-content:flex-end; gap:12px; margin-top: 24px;">
           <button style="background: #f1f5f9; color: #475569; border: none; border-radius: 8px; padding: 0 24px; height: 42px; font-weight: 600; cursor: pointer;" @click="showImportModal = false">取消</button>
-          <button class="btn-primary" style="width:auto; height: 42px; padding: 0 24px; font-size: 14px;" @click="submitImport">开始导入</button>
-        </div>
+          <button class="btn-primary" 
+        style="width:auto; height: 42px; padding: 0 24px; font-size: 14px;" 
+        @click="submitImport" 
+        :disabled="isImporting">
+  {{ isImporting ? '导入中...' : '开始导入' }}
+</button>
       </div>
     </div>
 
