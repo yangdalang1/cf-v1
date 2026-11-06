@@ -33,6 +33,8 @@ const toggleHideProject = (projectName: string) => {
     hiddenProjects.value.push(projectName)
     showToast(`已隐藏：${projectName}`)
   }
+  
+  loadRecords() 
 }
 
 watch(showRecordForm, (val) => localStorage.setItem('show_record_form', String(val)))
