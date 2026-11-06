@@ -633,7 +633,7 @@ onMounted(() => { if (isLogged.value) { initData(); if (isAdmin.value) loadAdmin
 
               </div>
             </div>
-
+</div>
                         <div class="table-wrapper">
               <table class="modern-table">
                 <!-- 👇 新增：精准控制列宽，彻底告别 nth-child 错位 -->
