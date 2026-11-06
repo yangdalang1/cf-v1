@@ -116,7 +116,6 @@ watch(hiddenIds, (val) => {
 const visibleRecords = computed(() => {
   return records.value.filter(r => {
     if (hiddenIds.value.includes(r.id)) return false
-    if (hiddenProjects.value.includes(r.project)) return false
     return true
   })
 })
@@ -384,6 +383,9 @@ async function loadRecords() {
   if (filterOutcomes.value.length) params.outcome = filterOutcomes.value.join(',')
   if (filterEvents.value.length) params.event = filterEvents.value.join(',')
   if (isAdmin.value) params.target_user = targetUser.value
+    if (hiddenProjects.value.length > 0) {
+    params.hide_projects = hiddenProjects.value.join(',')
+  }
   let res
   try {
     res = await axios.get('/api/records', { params, signal: recordsAbort.signal })

@@ -271,6 +271,15 @@ export async function onRequest(context) {
     let countSql = 'SELECT COUNT(*) as total FROM records WHERE 1=1'
     let params = []
 
+    const hide_projects = searchParams.get('hide_projects')
+    if (hide_projects) {
+      const hideArray = hide_projects.split(',')
+      const ph = hideArray.map(() => '?').join(',')
+      sql += ` AND project NOT IN (${ph})`
+      countSql += ` AND project NOT IN (${ph})`
+      params.push(...hideArray)
+    }
+
     if (currentUserRole === 'admin') {
       if (target_user && target_user !== '全部' && target_user !== 'all') {
         sql += ' AND user_id = ?'; countSql += ' AND user_id = ?'; params.push(parseInt(target_user))
