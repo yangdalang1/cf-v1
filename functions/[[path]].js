@@ -226,7 +226,7 @@ export async function onRequest(context) {
       let evExtra = ''; let evParams = []
       if (selProjects.length > 0) { evExtra += ` AND project IN (${selProjects.map(() => '?').join(',')})`; evParams.push(...selProjects) }
       if (selOutcomes.length > 0) { evExtra += ` AND outcome IN (${selOutcomes.map(() => '?').join(',')})`; evParams.push(...selOutcomes) }
-      const sqlEv = `SELECT DISTINCT match_info FROM records WHERE 1=1${userWhere}${dateWhere}${evExtra}`
+      const sqlEv = `SELECT DISTINCT match_info FROM records WHERE 1=1${userWhere}${dateWhere}${evExtra} LIMIT 1000`
       const { results: evRows } = await env.DB.prepare(sqlEv).bind(...userParams, ...dateParams, ...evParams).all()
       const evSet = new Set()
       evRows.forEach(r => { const name = parseEvent(r.match_info); if (name) evSet.add(name) })

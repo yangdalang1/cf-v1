@@ -333,22 +333,24 @@ async function loadFilterOptions() {
     const res = await axios.post('/api/records/filter-options', payload, { signal: optionsAbort.signal })
     filterOptions.value = res.data
     // 方式一：清理冲突已选
-    filterProjects.value = filterProjects.value.filter(v => res.data.projects.includes(v))
-    filterEvents.value = filterEvents.value.filter(v => res.data.events.includes(v))
-    filterOutcomes.value = filterOutcomes.value.filter(v => res.data.outcomes.includes(v))
+   
   } catch (e: any) {
     if (e.name === 'CanceledError' || e.code === 'ERR_CANCELED') return
   }
 }
+
 
 // ========== 统一筛选变化 ==========
 let filterTimer: any = null
 function onFilterChange() {
   if (filterTimer) clearTimeout(filterTimer)
   filterTimer = setTimeout(async () => {
-    await loadFilterOptions()
-    await loadRecords()
-  }, 150)
+    // 改为 Promise.all 并行，且防抖改为 500ms
+    Promise.all([
+      loadFilterOptions(),
+      loadRecords()
+    ])
+  }, 500) // 500毫秒防抖
 }
 
 function clearFilter(which: 'project' | 'event' | 'outcome' | 'date') {
@@ -409,8 +411,8 @@ async function addRecord() {
     await axios.post('/api/records', { ...form.value, extra_data: JSON.stringify(form.value.extra_data) })
     form.value.match_info = ''; form.value.teams = ''; form.value.result = ''; form.value.thought = ''
     dynamicFields.value.forEach(f => form.value.extra_data[f.name] = '')
-    await loadFilterOptions()
-    loadRecords()
+    loadRecords() 
+    loadFilterOptions() 
     showToast('录入成功！')
   } catch (e: any) { showToast('录入失败: ' + (e.response?.data?.error || e.message), 'error') }
 }
