@@ -398,7 +398,7 @@ async function loadRecords() {
   total.value = res.data.total
 }
 
-watch([filterProjects, filterEvents, filterOutcomes, filterDateStart, filterDateEnd], onFilterChange, { deep: true })
+watch([filterProjects, filterEvents, filterOutcomes, filterDateStart, filterDateEnd, targetUser], onFilterChange, { deep: true })
 watch(page, () => {
   loadRecords()
 })
