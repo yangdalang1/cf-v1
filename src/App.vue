@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import './style.css'
 import './poster.css'
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed, watch, defineAsyncComponent } from 'vue'
 import axios from 'axios'
-import Haibao from './components/haibao.vue'
+const Haibao = defineAsyncComponent(() => import('./components/haibao.vue'))
 import Zidian from './components/zidian.vue'
 import Zhanghao from './components/zhanghao.vue'
 import ToastConfirm from './components/ToastConfirm.vue'
