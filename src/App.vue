@@ -143,10 +143,14 @@ onMounted(() => {
   document.addEventListener('click', () => { activeMenuId.value = null })
 })
 
-const selectedIds = ref<number[]>([])
 const toggleSelectAll = () => {
-  if (selectedIds.value.length === records.value.length) selectedIds.value = []
-  else selectedIds.value = records.value.map(r => r.id)
+  // 如果当前勾选的数量等于当前可见的数据量，就清空
+  if (selectedIds.value.length === visibleRecords.value.length && visibleRecords.value.length > 0) {
+    selectedIds.value = []
+  } else {
+    // 否则就全选当前可见的行
+    selectedIds.value = visibleRecords.value.map(r => r.id)
+  }
 }
 
 const form = ref<any>({
@@ -642,7 +646,7 @@ onMounted(() => { if (isLogged.value) { initData(); if (isAdmin.value) loadAdmin
                 </thead>
                 <tbody>
                   <tr v-for="r in visibleRecords" :key="r.id">
-                    <td><input type="checkbox" :value="r.id" v-model="selectedIds" /></td>
+                    <td><input type="checkbox" :value="r.id" v-model="selectedIds" @click.stop /></td>
                     <td v-if="isAdmin && targetUser === '全部'">
                       <span class="tag-project">{{ adminUserList.find(u => u.id === r.user_id)?.username || r.user_id }}</span>
                     </td>
