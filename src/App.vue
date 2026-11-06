@@ -358,7 +358,6 @@ async function loadRecords() {
   }
   records.value = res.data.data.map((r: any) => ({ ...r, extra_data: r.extra_data ? JSON.parse(r.extra_data) : {} }))
   total.value = res.data.total
-  selectedIds.value = []
 }
 
 watch([filterProjects, filterEvents, filterOutcomes, filterDateStart, filterDateEnd], onFilterChange, { deep: true })
