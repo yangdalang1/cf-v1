@@ -170,34 +170,65 @@ function openEdit(row: any) {
 // ========== 批量导入 ==========
 const showImportModal = ref(false)
 const pasteData = ref('')
-function openImport() { pasteData.value = ''; showImportModal.value = true }
+const isImporting = ref(false) // 新增：导入状态控制
+
+function openImport() { 
+  pasteData.value = ''
+  showImportModal.value = true 
+}
 
 async function submitImport() {
   if (!pasteData.value.trim()) return showToast('请先粘贴数据', 'error')
-  const lines = pasteData.value.trim().split('\n')
+  if (isImporting.value) return // 防止重复点击
+  
+  // 1. 兼容各种奇怪的换行符（WPS/Excel/网页复制）
+  const lines = pasteData.value.trim().split(/\r?\n/)
   const recordsToAdd = []
+  
   for (let line of lines) {
-    const cols = line.split('\t').length > 1 ? line.split('\t') : line.split(',')
-    if (cols.length < 4) continue
-    recordsToAdd.push({
-      date: cols[0]?.trim() || new Date().toISOString().split('T')[0],
-      project: cols[1]?.trim() || '默认项目',
-      match_info: cols[2]?.trim() || '',
-      teams: cols[3]?.trim() || '',
-      result: cols[4]?.trim() || '',
-      thought: cols[5]?.trim() || '',
-      outcome: cols[6]?.trim() || '红',
-      extra_data: {}
-    })
+    if (!line.trim()) continue // 跳过空行
+    
+    // 2. 核心修复：先找 Tab（制表符），找不到再用逗号，最后用多个连续空格作为兜底
+    let cols = line.split('\t')
+    if (cols.length < 4) cols = line.split(',')
+    if (cols.length < 4) cols = line.split(/\s{2,}/) // 连续两个以上空格
+
+    // 只要列数大于等于 3 就尝试录入
+    if (cols.length >= 3) {
+      // 清洗数据，去掉首尾多余空格
+      const cleanCols = cols.map(c => c.trim())
+      
+      recordsToAdd.push({
+        date: cleanCols[0] || new Date().toISOString().split('T')[0],
+        project: cleanCols[1] || '默认项目',
+        match_info: cleanCols[2] || '',
+        teams: cleanCols[3] || '',
+        result: cleanCols[4] || '',
+        thought: cleanCols[5] || '',
+        outcome: cleanCols[6] || '红',
+        extra_data: '{}'
+      })
+    }
   }
+
   if (recordsToAdd.length === 0) return showToast('格式不对，未识别到有效数据', 'error')
+
   try {
-    for (const record of recordsToAdd) await axios.post('/api/records', { ...record, extra_data: JSON.stringify(record.extra_data) })
+    isImporting.value = true
+    showToast(`正在极速导入 ${recordsToAdd.length} 条数据...`, 'success')
+    
+    // 3. 极速导入：只发一次请求，把整个数组传给后端
+    await axios.post('/api/records/batch_add', { records: recordsToAdd })
+    
     showImportModal.value = false
     await loadFilterOptions()
     loadRecords()
     showToast(`成功导入 ${recordsToAdd.length} 条数据！`)
-  } catch (e: any) { showToast('导入失败: ' + (e.response?.data?.error || e.message), 'error') }
+  } catch (e: any) {
+    showToast('导入失败: ' + (e.response?.data?.error || e.message), 'error')
+  } finally {
+    isImporting.value = false
+  }
 }
 
 async function saveEdit() {
@@ -743,7 +774,9 @@ onMounted(() => { if (isLogged.value) { initData(); if (isAdmin.value) loadAdmin
         <textarea v-model="pasteData" rows="8" placeholder="2026-11-02&#9;拍案叫绝&#9;016/英超&#9;利物浦vs阿森纳&#9;1:0&#9;胜&#9;红" style="width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-family: monospace; font-size: 13px; outline: none; resize: vertical; background: #f8fafc;"></textarea>
         <div style="display:flex; justify-content:flex-end; gap:12px; margin-top: 24px;">
           <button style="background: #f1f5f9; color: #475569; border: none; border-radius: 8px; padding: 0 24px; height: 42px; font-weight: 600; cursor: pointer;" @click="showImportModal = false">取消</button>
-          <button class="btn-primary" style="width:auto; height: 42px; padding: 0 24px; font-size: 14px;" @click="submitImport">开始导入</button>
+          <button class="btn-primary" :disabled="isImporting" style="width:auto; height: 42px; padding: 0 24px; font-size: 14px; opacity: isImporting ? 0.7 : 1; cursor: isImporting ? 'not-allowed' : 'pointer';" @click="submitImport">
+  {{ isImporting ? '极速导入中...' : '开始导入' }}
+</button>
         </div>
       </div>
     </div>

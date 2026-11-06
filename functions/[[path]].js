@@ -132,6 +132,46 @@ export async function onRequest(context) {
   }
 
   // ========== 战绩管理 ==========
+    // 极速批量导入接口
+  if (pathname === '/api/records/batch_add' && request.method === 'POST') {
+    try {
+      const { records } = await request.json()
+      if (!records || records.length === 0) {
+        return new Response(JSON.stringify({ error: '没有数据' }), { status: 400, headers })
+      }
+
+      const stmt = env.DB.prepare(`
+        INSERT INTO records (user_id, date, project, match_info, teams, result, thought, outcome, extra_data) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `)
+
+      // 构建批量队列
+      const batch = records.map(r => {
+        // 处理日期格式（和单条录入保持一致）
+        const parts = (r.date || '').replace(/\//g, '-').split('-')
+        const dateStr = parts.length === 3 ? `${parts[0]}/${parts[1].padStart(2, '0')}/${parts[2].padStart(2, '0')}` : r.date
+        
+        return stmt.bind(
+          currentUserId, 
+          dateStr, 
+          r.project, 
+          r.match_info, 
+          r.teams, 
+          r.result || '', 
+          r.thought || '', 
+          r.outcome, 
+          r.extra_data || '{}'
+        )
+      })
+
+      // 一次性告诉数据库：把这批数据全写进去
+      await env.DB.batch(batch)
+
+      return new Response(JSON.stringify({ ok: true, count: records.length }), { headers })
+    } catch (err) {
+      return new Response(JSON.stringify({ error: err.message }), { status: 500, headers })
+    }
+  }
 
   // 新增：筛选可选项（全量 + 联动收窄）
   if (pathname === '/api/records/filter-options' && request.method === 'POST') {
