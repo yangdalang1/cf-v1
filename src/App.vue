@@ -749,7 +749,7 @@ onMounted(() => {
         </div>
 
         <Zhanghao v-if="currentTab === 'users' && isAdmin" :user-list="userList" :my-id="myId" @refresh="loadAdminUsers" />
-        <Haibao v-if="currentTab === 'front'" :records="records" :all-columns="allColumns" @update-cols="(cols: any[]) => columns = cols" />
+        <Haibao v-if="currentTab === 'front'" :records="visibleRecords" :all-columns="allColumns" @update-cols="(cols: any[]) => columns = cols" />
       </div>
     </main>
 
