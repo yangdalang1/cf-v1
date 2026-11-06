@@ -143,6 +143,7 @@ onMounted(() => {
   document.addEventListener('click', () => { activeMenuId.value = null })
 })
 
+const selectedIds = ref<number[]>([])
 const toggleSelectAll = () => {
   // 如果当前勾选的数量等于当前可见的数据量，就清空
   if (selectedIds.value.length === visibleRecords.value.length && visibleRecords.value.length > 0) {
@@ -638,7 +639,7 @@ onMounted(() => { if (isLogged.value) { initData(); if (isAdmin.value) loadAdmin
                 <thead>
 
                   <tr>
-                    <th style="width:40px;"><input type="checkbox" @change="toggleSelectAll" :checked="selectedIds.length === records.length && records.length > 0" /></th>
+                    <th style="width:40px;"><input type="checkbox" @change="toggleSelectAll" :checked="records?.length > 0 && selectedIds?.length === records?.length" /></th>
                     <th v-if="isAdmin && targetUser === '全部'">用户</th>
                     <th v-for="col in allColumns" :key="col.key">{{ col.name }}</th>
                     <th>操作</th>
