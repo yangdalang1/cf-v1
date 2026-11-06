@@ -473,7 +473,20 @@ async function initData() {
   await loadFilterOptions()
   await loadRecords()
 }
-onMounted(() => { if (isLogged.value) { initData(); if (isAdmin.value) loadAdminUsers() } })
+// 👇 这是全新的 onMounted，替换掉你刚才删的那一行
+onMounted(() => { 
+  // 1. 先执行你原本的数据加载逻辑
+  if (isLogged.value) { 
+    initData()
+    if (isAdmin.value) loadAdminUsers() 
+  }
+  
+  // 2. 延迟 100 毫秒，确保 Vue 渲染完毕，然后隐藏 index.html 里的加载动画
+  setTimeout(() => {
+    const loader = document.getElementById('global-loader')
+    if (loader) loader.style.display = 'none'
+  }, 100)
+})
 </script>
 
 <template>
