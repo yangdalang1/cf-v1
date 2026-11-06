@@ -735,9 +735,9 @@ onMounted(() => {
 
             <!-- 分页器：单页到底已删除，50条修复 -->
             <div class="pagination" style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px; align-items:center;">
-              <button class="page-btn" :disabled="page <= 1" @click="page--">上一页</button>
+              <button class="page-btn" :disabled="page <= 1" @click="page--; loadRecords()">上一页</button>
               <span>{{ page }} / {{ Math.ceil(total / pageSize) || 1 }}</span>
-              <button class="page-btn" :disabled="page >= Math.ceil(total / pageSize)" @click="page++">下一页</button>
+              <button class="page-btn" :disabled="page >= Math.ceil(total / pageSize)" @click="page++; loadRecords()">下一页</button>
               
               <BaseSelect 
                 v-model="pageSize" 
