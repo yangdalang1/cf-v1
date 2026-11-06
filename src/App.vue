@@ -20,6 +20,19 @@ const isSidebarCollapsed = ref(false)
 const showDictPanel = ref(false)
 const showRecordForm = ref(localStorage.getItem('show_record_form') !== 'false')
 
+// 👇 新增：隐藏战绩项目的状态
+const hiddenProjects = ref<string[]>(JSON.parse(localStorage.getItem('hidden_projects') || '[]'))
+watch(hiddenProjects, (val) => localStorage.setItem('hidden_projects', JSON.stringify(val)), { deep: true })
+
+// 切换隐藏项目
+const toggleHideProject = (projectName: string) => {
+  if (hiddenProjects.value.includes(projectName)) {
+    hiddenProjects.value = hiddenProjects.value.filter(p => p !== projectName)
+  } else {
+    hiddenProjects.value.push(projectName)
+  }
+}
+
 watch(showRecordForm, (val) => localStorage.setItem('show_record_form', String(val)))
 
 // ========== 全局 Toast ==========
@@ -97,8 +110,15 @@ watch(hiddenIds, (val) => {
   localStorage.setItem('hidden_records', JSON.stringify(val))
 }, { deep: true })
 
+// 过滤表格数据（加入了隐藏项目的过滤）
 const visibleRecords = computed(() => {
-  return records.value.filter(r => !hiddenIds.value.includes(r.id))
+  return records.value.filter(r => {
+    // 1. 过滤掉被单条隐藏的数据
+    if (hiddenIds.value.includes(r.id)) return false
+    // 2. 过滤掉被选中的隐藏项目
+    if (hiddenProjects.value.includes(r.project)) return false
+    return true
+  })
 })
 
 function toggleMenu(id: number, event: MouseEvent) {
@@ -583,6 +603,18 @@ onMounted(() => {
               </div>
             </div>
             <div v-show="showDictPanel" style="background: #ffffff; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 20px 20px; padding: 20px; position: relative; z-index: 1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+              
+              <!-- 👇 新增的隐藏战绩项目勾选框 -->
+              <div style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px dashed #e2e8f0;">
+                <div style="font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 12px;">🚫 隐藏展示项目 (勾选的项目将不在表格中显示)</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                  <label v-for="p in projects" :key="p" style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; color: #1e293b;">
+                    <input type="checkbox" :checked="hiddenProjects.includes(p)" @change="toggleHideProject(p)" style="width: 16px; height: 16px; accent-color: #ef4444; cursor: pointer;" />
+                    {{ p }}
+                  </label>
+                </div>
+              </div>
+
               <Zidian embedded :outcomes="outcomes" :projects="projects" :dynamic-fields="dynamicFields" @refresh="loadDict" />
             </div>
           </div>
@@ -696,7 +728,7 @@ onMounted(() => {
                       </div>
                     </td>
                   </tr>
-                  <tr v-if="records.length === 0"><td :colspan="allColumns.length + 2 + (isAdmin && targetUser === '全部' ? 1 : 0)" class="empty-state">暂无数据</td></tr>
+                  <tr v-if="visibleRecords.length === 0"><td :colspan="allColumns.length + 2 + (isAdmin && targetUser === '全部' ? 1 : 0)" class="empty-state">暂无数据</td></tr>
                 </tbody>
               </table>
             </div>
